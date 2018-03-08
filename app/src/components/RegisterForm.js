@@ -39,7 +39,7 @@ export const RegisterForm = (props) => {
 
     return (
         <Form>
-            <Text style = {styles.logo}> Tinmart </Text>
+            <Text style = {styles.logo}> {appInfo.name} </Text>
 
             <Item floatingLabel style = {{marginRight: '5%', borderColor: props.style.userNameFieldBorder}}>
                 <Label style = {styles.label}> Username <Text style = {styles.invalidText}> {props.invalidTexts.invalidTextUserName} </Text></Label>
