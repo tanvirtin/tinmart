@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { DefaultLayout } from '../components/DefaultLayout';
+import { SearchLayout } from '../components/SearchLayout';
 
 import { connect } from 'react-redux';
 
@@ -30,12 +30,12 @@ class HomeContainer extends Component {
 
     render() {
         return (
-            <DefaultLayout
+            <SearchLayout
                 onMenuPress = {this.onMenuPress}
                 title = {'Home'}
             >
 
-            </DefaultLayout>
+            </SearchLayout>
         );
     }
 }
