@@ -30,6 +30,9 @@ class LoginContainer extends Component {
         this.userNameOnChangeText = this.userNameOnChangeText.bind(this);
         this.passwordOnChangeText = this.passwordOnChangeText.bind(this);
 
+        // this attribute is here to make sure that two windows don't open when you accidently double tap the register button
+        this.alreadyClickedRegister = false;
+
         this.animationDelay = 200;
         this.toastTime = 2000;
     }
@@ -86,12 +89,18 @@ class LoginContainer extends Component {
     onRegister() {
         // If spinner is on we don't go to the register view, the indcation of whether spinner is on or off is determined by the loading
         // attribute of the loginUI reducer state.
-        if (!this.props.loginUI.loading) {
+        if (!this.props.loginUI.loading && !this.alreadyClickedRegister) {
+            // turn on the indicator that says that we already clicked the register button
+            this.alreadyClickedRegister = true;
+
             // It is very important to clear out the current changes made to the UI and store by the Login view.
             // Therefore we need to clear out all the changes we made and reset the default values for the attributes
             //  of the store that is responsible for the login view
             this.props.clearLoginUIChanges();
             this.props.navigation.navigate('Register');
+            // exactly after 1 second the this.alreadyClickedRegister is turned to false, so that when back button is
+            // pressed and you return from a previous screen you can revisit the screen again
+            setTimeout(() => this.alreadyClickedRegister = false, 1000);
         }
     }
 
