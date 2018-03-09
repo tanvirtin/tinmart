@@ -6,6 +6,7 @@ import { NoHeaderLayout } from '../components/NoHeaderLayout';
 import { LoginForm } from '../components/LoginForm';
 import { SubmitButton } from '../components/SubmitButton';
 import { RedirectRegister } from '../components/RedirectRegister';
+import { NavigationActions } from 'react-navigation';
 
 import { connect } from 'react-redux';
 
@@ -40,7 +41,6 @@ class LoginContainer extends Component {
     // when this button is invoked the form will be passed to this func and
     // the form will be send to the server as a PUT HTTP request
     onSubmit(form) {
-
         let userNameCheck = this.checkUserName(form.userName);
         let passwordCheck = this.checkPassword(form.password);
 
@@ -72,7 +72,7 @@ class LoginContainer extends Component {
                 this.props.clearLoginForm();
 
                 // navigate to the home page on successful authentication
-                this.props.navigation.navigate('Home');
+                this.props.navigation.navigate('ViewsWithDrawer');
 
             } else if (response.status === 400) {
                 this.props.authenticationError();
@@ -98,6 +98,7 @@ class LoginContainer extends Component {
             //  of the store that is responsible for the login view
             this.props.clearLoginUIChanges();
             this.props.navigation.navigate('Register');
+
             // exactly after 1 second the this.alreadyClickedRegister is turned to false, so that when back button is
             // pressed and you return from a previous screen you can revisit the screen again
             setTimeout(() => this.alreadyClickedRegister = false, 1000);

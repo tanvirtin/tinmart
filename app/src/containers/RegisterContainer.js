@@ -78,7 +78,7 @@ class RegisterContainer extends Component {
         this.props.clearRegisterUIChanges();
 
         this.props.navigation.dispatch(NavigationActions.back());
-
+        
         return true;
     }
 
