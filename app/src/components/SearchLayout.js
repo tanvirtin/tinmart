@@ -2,6 +2,9 @@
 
 import React, { Component } from 'react';
 import {
+    TouchableOpacity
+} from 'react-native';
+import {
     Container,
     Content,
     Header,
@@ -12,11 +15,13 @@ import {
     Text,
     Item,
     Input,
-    Button
+    Button,
 } from 'native-base';
 
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
+
+// TODO - Pass functions as props which extracts the text and makes queries to the server from the input box
 
 export const SearchLayout = (props) => {
     return (
@@ -52,7 +57,9 @@ const styles = {
         color: 'white',
         fontSize: 20
     },
+    // flex with the value 4 is very important in order to space the elements close to each other
     searchBar: {
-        flex:4
+        flex:4,
+        marginRight: '5%'
     }
 };

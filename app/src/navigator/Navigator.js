@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 
+import IntroductionContainer from '../containers/IntroductionContainer';
+import HomeContainer from '../containers/HomeContainer';
 import LoginContainer from '../containers/LoginContainer';
 import RegisterContainer from '../containers/RegisterContainer';
-import HomeContainer from '../containers/HomeContainer';
 import DrawerContainer from '../containers/DrawerContainer';
 
 const Drawer = DrawerNavigator({
@@ -20,6 +21,7 @@ const Drawer = DrawerNavigator({
 
 
 export const Navigator = StackNavigator({
+    Introduction: {screen: IntroductionContainer},
     // The third index will be another navigation stack itself, this stack will contain all the components
     // which will have access to the drawer, or in other words the screen can be swiped from the left on these
     // views to access the drawer. This navigation stack will be aliased by the key ViewsWithDrawer

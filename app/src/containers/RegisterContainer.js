@@ -70,15 +70,13 @@ class RegisterContainer extends Component {
             return false;
         }
 
-        // TODO - CREATE A REDUCER WHICH NEEDS TO REFRESH THE LOGIN PAGE, BY REFRESH I MEAN CLEARING ALL THE STATE OF THE LOGIN PAGE
-
         // First thing I do when back button is pressed is reset the register form that is submitted to the store
         // and then I go back to the login page so that whem the user clicks on the register page again, they see a fresh new page.
         this.props.clearRegisterForm();
         this.props.clearRegisterUIChanges();
 
         this.props.navigation.dispatch(NavigationActions.back());
-        
+
         return true;
     }
 
