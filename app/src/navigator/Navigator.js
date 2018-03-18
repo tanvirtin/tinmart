@@ -1,11 +1,36 @@
 import React, { Component } from 'react';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import { Animated, Easing } from 'react-native';
 
 import IntroductionContainer from '../containers/IntroductionContainer';
 import HomeContainer from '../containers/HomeContainer';
 import LoginContainer from '../containers/LoginContainer';
 import RegisterContainer from '../containers/RegisterContainer';
 import DrawerContainer from '../containers/DrawerContainer';
+
+const transitionConfig = () => {
+  return {
+    transitionSpec: {
+      duration: 300,
+      easing: Easing.out(Easing.poly(4)),
+      timing: Animated.timing,
+      useNativeDriver: true,
+    },
+    screenInterpolator: sceneProps => {
+      const { layout, position, scene } = sceneProps
+
+      const thisSceneIndex = scene.index
+      const width = layout.initWidth
+
+      const translateX = position.interpolate({
+        inputRange: [thisSceneIndex - 1, thisSceneIndex],
+        outputRange: [width, 0],
+      })
+
+      return { transform: [ { translateX } ] }
+    },
+  }
+}
 
 const Drawer = DrawerNavigator({
     // The views below will have the ability from left to access the drawer class
@@ -31,5 +56,6 @@ export const Navigator = StackNavigator({
     // Then the second index in the stack will be the RegisterContainer, aliased by the Register attribute
     Register: {screen: RegisterContainer}
 }, {
-    headerMode: 'none'
+    headerMode: 'none',
+    transitionConfig
 });

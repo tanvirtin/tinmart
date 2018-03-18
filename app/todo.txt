@@ -1,2 +1,3 @@
 TODO - reset the stack and go to the home view when a form is submitted
 TODO - go to login and register page and change the appInfo.name to Logo and provide custom props and change the style in logo for those custom props
+TODO - understand how the transitionConfig object that you added in Navigator.js
