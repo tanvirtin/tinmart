@@ -6,16 +6,13 @@ import { Text } from 'react-native';
 // contains basic information about the app
 const appInfo = require('../../appInfo.json');
 
-// TODO - Add propTypes and defaultProps to all dumb components whenever necessary.
-//        By default the logo will be big but props can be passed to the Logo component
-//        in order to modify the fontSize and marginTop.
-
 export const Logo = (props) => {
-    // I deep copy the logo object from styles into the style props, but then from
-    // whatever props the user provides I assign the styles to those props if they exist
-    return (
-        <Text style = {{...styles.logo}}> {appInfo.name} </Text>
-    );
+    // checks if a style prop is given to the component
+    const isUndefined = props.style === undefined ? true : false;
+
+    // if a style prop is given then I render the text component with the given style component otherwise I use my defaulty style component
+    return isUndefined ? (<Text style = {styles.logo}> {appInfo.name} </Text>) : (<Text style = {props.style}> {appInfo.name} </Text>);
+
 }
 
 // Stylesheet.create() must not be used as a plain JavaScript object is not returned and for performance optimization

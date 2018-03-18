@@ -19,13 +19,19 @@ class IntroductionContainer extends Component {
         // NavigationActions.reset() returns an action object and it is an action creator this action contains
         // the appropriate type and payload for the reducer in provided by react navigation to be activated
         const navigatorStackResetAction = NavigationActions.reset({
+            // when null reset will reset the root navigator
+            key: null,
+            // when resets the root navigator the index of the stack we want to be is at 0, which is the first index
             index: 0,
-            actions: [NavigationActions.navigate({
-                routeName: 'Login'
-            })]
+            actions: [
+                // we reset the entire navigator stack with these new routes now, you can be at a specific index
+                // according to these routes by specifying the index attribute
+                NavigationActions.navigate({
+                    routeName: 'Login'
+                })
+            ]
         });
-
-        setTimeout(() => this.props.navigation.dispatch(navigatorStackResetAction), 3000);
+        setTimeout(() => {this.props.navigation.dispatch(navigatorStackResetAction)}, 2000);
     }
 
     render() {

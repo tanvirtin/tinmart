@@ -8,26 +8,31 @@ import LoginContainer from '../containers/LoginContainer';
 import RegisterContainer from '../containers/RegisterContainer';
 import DrawerContainer from '../containers/DrawerContainer';
 
+// transitionConfig object creator from https://medium.com/async-la/custom-transitions-in-react-navigation-2f759408a053
+// for a modal transiting from left to right for every page.
 const transitionConfig = () => {
   return {
     transitionSpec: {
+      // duration determines how long the animation will last
       duration: 300,
       easing: Easing.out(Easing.poly(4)),
       timing: Animated.timing,
       useNativeDriver: true,
     },
     screenInterpolator: sceneProps => {
-      const { layout, position, scene } = sceneProps
+      const { layout, position, scene } = sceneProps;
 
-      const thisSceneIndex = scene.index
-      const width = layout.initWidth
+      const thisSceneIndex = scene.index;
+      const width = layout.initWidth;
 
       const translateX = position.interpolate({
         inputRange: [thisSceneIndex - 1, thisSceneIndex],
         outputRange: [width, 0],
-      })
+      });
 
-      return { transform: [ { translateX } ] }
+      return {
+        transform: [ { translateX } ]
+      };
     },
   }
 }

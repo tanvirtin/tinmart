@@ -12,6 +12,7 @@ import {
 import DatePicker from 'react-native-datepicker';
 
 import { ToastWrapper } from './ToastWrapper';
+import { Logo } from './Logo';
 
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
@@ -34,12 +35,9 @@ export const RegisterForm = (props) => {
     // deep copy the store's attribute registerForm and assign it as registerForm variable.
     let registerForm = {...props.defaultRegisterForm};
 
-
-    // TODO - FIX DATE PICKER UI, closeModal gets invoked only when the cancel button is picked when the DatePicker opens.
-
     return (
         <Form>
-            <Text style = {styles.logo}> {appInfo.name} </Text>
+            <Logo style = {styles.logo}/>
 
             <Item floatingLabel style = {{marginRight: '5%', borderColor: props.style.userNameFieldBorder}}>
                 <Label style = {styles.label}> Username <Text style = {styles.invalidText}> {props.invalidTexts.invalidTextUserName} </Text></Label>

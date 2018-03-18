@@ -10,6 +10,7 @@ import {
 } from 'native-base';
 
 import { ToastWrapper } from './ToastWrapper';
+import { Logo } from './Logo';
 
 const appInfo = require('../../appInfo.json');
 
@@ -22,7 +23,7 @@ export const LoginForm = (props) => {
 
     return (
         <Form style = {styles.form}>
-            <Text style = {styles.logo}> {appInfo.name} </Text>
+            <Logo style = {styles.logo}/>
             <Item floatingLabel style = {{marginRight: '5%', borderColor: props.style.userNameFieldBorder}}>
                 <Label style = {styles.label}> Username </Label>
                 <Input onEndEditing = {() => props.onEndEdits.userName(loginForm.userName)} onChangeText = {(text) => props.onChangeTexts.userName(text)}/>
