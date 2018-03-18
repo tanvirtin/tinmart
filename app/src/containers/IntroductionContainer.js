@@ -16,15 +16,16 @@ class IntroductionContainer extends Component {
 
     // When the component finishes rendering
     componentDidMount() {
-        // navigate to the login page immidietly after the intro page
-        const resetNavigationStack = NavigationActions.reset({
+        // NavigationActions.reset() returns an action object and it is an action creator this action contains
+        // the appropriate type and payload for the reducer in provided by react navigation to be activated
+        const navigatorStackResetAction = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({
                 routeName: 'Login'
             })]
         });
 
-        setTimeout(() => this.props.navigation.dispatch(resetNavigationStack), 3000);
+        setTimeout(() => this.props.navigation.dispatch(navigatorStackResetAction), 3000);
     }
 
     render() {
