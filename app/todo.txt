@@ -1,1 +1,1 @@
-TODO - Add logo animation
+TODO - Fix the button in Login screen

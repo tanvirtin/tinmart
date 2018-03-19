@@ -26,7 +26,6 @@ export const KeyboardAwareLayout = (props) => {
 // a pure JavaScript object must be assigned to components as props
 const styles = {
     container: {
-        backgroundColor: 'white',
-        alignItems: 'center'
+        backgroundColor: 'white'
     }
 };

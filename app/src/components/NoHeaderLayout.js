@@ -24,6 +24,8 @@ const styles = {
     container: {
         flex:1,
         backgroundColor: 'white',
+        // justifyContent squishes items in the y axis towards the center
+        // where alignItems squishes items in the x axis towards the center
         justifyContent: 'center'
     }
 };

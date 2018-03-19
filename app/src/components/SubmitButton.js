@@ -17,10 +17,10 @@ export const SubmitButton = (props) => {
             activeOpacity = {1.0}
             activityIndicatorColor = {appInfo.themeColor}
             isLoading = {props.isLoading}
-            style = {styles.opacity}
+            style = {styles.button}
             onPress = {props.onSubmit}
         >
-            <Text style = {styles.button}> Submit </Text>
+            <Text style = {styles.buttonText}> Submit </Text>
         </Button>
     );
 }
@@ -28,13 +28,11 @@ export const SubmitButton = (props) => {
 // Stylesheet.create() must not be used as a plain JavaScript object is not returned and for performance optimization
 // a pure JavaScript object must be assigned to components as props
 const styles = {
-    opacity: {
+    button: {
         backgroundColor: appInfo.themeColor,
         marginTop: '10%',
-        width: 350,
-        height: 55
     },
-    button: {
+    buttonText: {
         textAlign: 'center',
         height: 60,
         fontSize: 18,
