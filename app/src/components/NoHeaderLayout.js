@@ -5,17 +5,16 @@ import {
     Container,
     Content,
 } from 'native-base';
+import { View } from 'react-native';
 
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
 export const NoHeaderLayout = (props) => {
     return (
-        <Container style = {styles.container}>
-            <Content>
-                {props.children}
-            </Content>
-        </Container>
+        <View style = {styles.container}>
+            {props.children}
+        </View>
     );
 }
 
@@ -23,7 +22,8 @@ export const NoHeaderLayout = (props) => {
 // a pure JavaScript object must be assigned to components as props
 const styles = {
     container: {
+        flex:1,
         backgroundColor: 'white',
-        alignItems: 'center'
+        justifyContent: 'center'
     }
 };

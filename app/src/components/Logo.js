@@ -31,10 +31,9 @@ export const Logo = (props) => {
 // a pure JavaScript object must be assigned to components as props
 const styles = {
     logo: {
-        textAlign: 'center',
         color: appInfo.themeColor,
         fontSize: 50,
         fontWeight: 'bold',
-        marginTop: '115%'
+        textAlign: 'center'
     }
 }
