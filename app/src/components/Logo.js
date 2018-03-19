@@ -13,9 +13,16 @@ export const Logo = (props) => {
     // checks if a style prop is given to the component
     const propsIsUndefined = props.style === undefined ? true : false;
 
-    // jsx element stored in a variable for conditional rendering in return statement
-    const textWithoutProp = <Text style = {styles.logo}> {appInfo.name} </Text>;
-    // jsx element stored in a variable for conditional rendering in return statement
+    // jsx element stored in a variable for conditional rendering in return statement when style attribute is undefined
+    let textWithoutProp = <Text style = {styles.logo}> {appInfo.name} </Text>;
+
+    // check to see if animatable opacity prop is passed in
+    if (props.animatableOpacity !== undefined) {
+        // a new object style object is created deep copying the attributes of the logo object with a new opactiy attribute added
+        textWithoutProp = <Text style = {{...styles.logo, opacity: props.animatableOpacity}}> {appInfo.name} </Text>;
+    }
+
+    // jsx element stored in a variable for conditional rendering in return statement when style attribute is defined
     const textWithProp = <Text style = {props.style}> {appInfo.name} </Text>;
 
     return (

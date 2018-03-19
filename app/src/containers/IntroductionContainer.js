@@ -37,7 +37,7 @@ class IntroductionContainer extends Component {
     render() {
         return (
             <NoHeaderLayout>
-                <Logo/>
+                <Logo animatableOpacity = {0.5}/>
             </NoHeaderLayout>
         );
     }
