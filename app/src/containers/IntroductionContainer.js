@@ -5,13 +5,18 @@ import { NoHeaderLayout } from '../components/NoHeaderLayout';
 import { Logo } from '../components/Logo';
 import { NavigationActions } from 'react-navigation';
 import { Text } from 'native-base';
-
+import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 
 class IntroductionContainer extends Component {
     constructor(props) {
         super(props);
+    }
+
+    // before the component renders we want to set some attributes for this class which are our animated attributes
+    componentWillMount() {
+        this.animatableOpacity = new Animated.Value(0);
     }
 
     // When the component finishes rendering
@@ -31,13 +36,24 @@ class IntroductionContainer extends Component {
                 })
             ]
         });
-        setTimeout(() => {this.props.navigation.dispatch(navigatorStackResetAction)}, 2000);
+
+        // when the component mounts I change the varibale that is an animated value to animate the view which
+        // has the variable inside a style prop object as an attribute
+        Animated.timing(this.animatableOpacity, {
+            toValue: 1,
+            duration: 1500
+        }).start();
+
+        setTimeout(() => this.props.navigation.dispatch(navigatorStackResetAction), 2500);
     }
 
     render() {
+        let animatableStyleObject = {
+            opacity: this.animatableOpacity
+        }
         return (
             <NoHeaderLayout>
-                <Logo animatableOpacity = {0.5}/>
+                <Logo animatableStyles = {animatableStyleObject}/>
             </NoHeaderLayout>
         );
     }
