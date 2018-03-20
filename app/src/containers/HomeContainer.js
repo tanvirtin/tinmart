@@ -6,6 +6,8 @@ import { SearchLayout } from '../components/SearchLayout';
 
 import { connect } from 'react-redux';
 
+import { BackHandler } from 'react-native';
+
 // Imports all action functions as an actions object
 import * as actions from '../actions/home';
 
@@ -21,7 +23,30 @@ class HomeContainer extends Component {
         // when these functions will be passed to their children which have a different scope
         this.onMenuPress = this.onMenuPress.bind(this);
 
+        // the onBackPress method needs to be binded to the scope of the component class
+        // so that the keyword this can refer to the class the method belongs to despite being
+        // passed into different scopes
+        this.onBackPress = this.onBackPress.bind(this);
+
         this.toastTime = 2000;
+    }
+
+    // attach a hardware back button event handler
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    }
+
+    // detach the hardware back button handler on component did mount when the component is unmounting
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+
+    onBackPress() {
+        this.props.navigation.navigate('DrawerClose');
+
+        // when true is returned in the back handler function you don't exit the app
+        // when false is returned you exit the app
+        return true;
     }
 
     onMenuPress() {

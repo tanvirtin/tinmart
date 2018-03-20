@@ -67,6 +67,7 @@ class RegisterContainer extends Component {
     // gets triggered when the back button is pressed
     onBackPress() {
         if (this.props.navigatorStack.index === 0) {
+            // when false is returned you exit the app
             return false;
         }
 
@@ -77,6 +78,7 @@ class RegisterContainer extends Component {
 
         this.props.navigation.dispatch(NavigationActions.back());
 
+        // when true is returned in the back handler function you don't exit the app
         return true;
     }
 
