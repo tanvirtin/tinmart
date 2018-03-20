@@ -53,10 +53,6 @@ const styles = {
     header: {
         backgroundColor: appInfo.themeColor
     },
-    title: {
-        color: 'white',
-        fontSize: 20
-    },
     // flex with the value 4 is very important in order to space the elements close to each other
     searchBar: {
         flex:4,
