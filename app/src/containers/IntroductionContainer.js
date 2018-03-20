@@ -5,7 +5,10 @@ import { NoHeaderLayout } from '../components/NoHeaderLayout';
 import { Logo } from '../components/Logo';
 import { NavigationActions } from 'react-navigation';
 import { Text } from 'native-base';
-import { Animated } from 'react-native';
+import { 
+    Animated,
+    StatusBar
+} from 'react-native';
 import { connect } from 'react-redux';
 
 
@@ -21,6 +24,7 @@ class IntroductionContainer extends Component {
 
     // When the component finishes rendering
     componentDidMount() {
+        StatusBar.setHidden(true);
         // NavigationActions.reset() returns an action object and it is an action creator this action contains
         // the appropriate type and payload for the reducer in provided by react navigation to be activated
         const navigatorStackResetAction = NavigationActions.reset({
@@ -44,7 +48,13 @@ class IntroductionContainer extends Component {
             duration: 1500
         }).start();
 
-        setTimeout(() => this.props.navigation.dispatch(navigatorStackResetAction), 2500);
+        setTimeout(() => this.props.navigation.dispatch(navigatorStackResetAction), 3000);
+    }
+    
+    // as the component is about to be removed from the DOM this method will get invoked
+    componentWillUnmount() {
+        // when this method gets invoked I will show the status bar again
+        StatusBar.setHidden(false);
     }
 
     render() {
