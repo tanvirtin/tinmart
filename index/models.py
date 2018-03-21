@@ -1,4 +1,4 @@
-from mongoengine import IntField, StringField, ListField, DictField
+from mongoengine import Document, IntField, StringField, ListField, DictField
 
 # model responsible for interacting with crawler_documents collection in walmartcrawler databse in mongodb
 class CrawlerDocument(Document):

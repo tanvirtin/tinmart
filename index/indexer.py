@@ -1,14 +1,27 @@
-from model import CrawlerDocument
+from models import CrawlerDocument
 from mongoengine import connect
 from threading import Thread
 
-class Indexer(object):
+class IndexController(object):
     def __init__(self):
         # when the object is instantiated connect to the walmartcrawler database in mongodb
         connect('walmartcrawler')
 
-    def indexCrawledDocuments(self):
-        crawler_documents = CrawlerDocument.objects
+    def __create_lucene_dict(self, crawler_document):
+        lucene_object = {
+            'docId': crawler_document.docId,
+            'title': crawler_document.title,
+            'description': crawler_document.description,
+            'features': crawler_document.features,
+            'category': crawler_document.category,
+            'price': crawler_document.price,
+            'text': crawler_document.text,
+            'tags': crawler_document.tags
+        }
+        return lucene_object
 
+
+    def index_crawled_documents(self):
+        crawler_documents = CrawlerDocument.objects
         for crawler_document in crawler_documents:
-            print(crawler_document.docId)
+            lucene_document = self.__create_lucene_dict(crawler_document)
