@@ -1,14 +1,18 @@
 from models import CrawlerDocument
 from mongoengine import connect
 from threading import Thread
+from elasticsearchcli import ElasticSearchCli
 
+'''
+    Class is responsible for managing the index
+'''
 class IndexController(object):
     def __init__(self):
         # when the object is instantiated connect to the walmartcrawler database in mongodb
         connect('walmartcrawler')
 
     def __create_lucene_dict(self, crawler_document):
-        lucene_object = {
+        return {
             'docId': crawler_document.docId,
             'title': crawler_document.title,
             'description': crawler_document.description,
@@ -18,8 +22,6 @@ class IndexController(object):
             'text': crawler_document.text,
             'tags': crawler_document.tags
         }
-        return lucene_object
-
 
     def index_crawled_documents(self):
         crawler_documents = CrawlerDocument.objects
