@@ -41,7 +41,8 @@ const Drawer = DrawerNavigator({
     // The views below will have the ability from left to access the drawer class
     Home: {screen: HomeContainer}
 }, {
-    // contentComponent means that we can define our own view component inside the drawer
+    // contentComponent means that we can define our own view component for the drawer
+    // this means that our DrawerContainer component will be responsible for the drawer view.
     contentComponent: props => <DrawerContainer {...props}/>,
     // the options below are mandatory to avoid an error generated when contentComponent is used
     drawerOpenRoute: 'DrawerOpen',

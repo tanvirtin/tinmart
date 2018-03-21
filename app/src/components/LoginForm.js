@@ -14,7 +14,7 @@ import { Logo } from './Logo';
 
 const appInfo = require('../../appInfo.json');
 
-export const LoginForm = (props) => {
+export const LoginForm = props => {
     // NOTE** This has to be renamed from form to loginForm, as RegisterForm also contains a form
     // and somehow LoginForm component can access the form of the RegisterForm.
     // loginForm needs to be a deep copy of the loginForm attribute of the store's state object, so that changing

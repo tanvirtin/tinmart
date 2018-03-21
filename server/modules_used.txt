@@ -1,3 +1,4 @@
 rest_framework
 djangorestframework-jwt
 graphene-django
+mongoengine

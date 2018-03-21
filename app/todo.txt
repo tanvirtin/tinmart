@@ -1,0 +1,2 @@
+TODO - Add event handler to the sign in text
+TODO - Add logic to only show the sign in button only if there is no user logged in

@@ -17,7 +17,7 @@ import { Logo } from './Logo';
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
-export const RegisterForm = (props) => {
+export const RegisterForm = props => {
     // NOTE** - This has to be renamed from form to registerForm, as LoginForm also contains a this.form
     // and somehow RegisterForm component can access the this.form of the LoginForm.
 

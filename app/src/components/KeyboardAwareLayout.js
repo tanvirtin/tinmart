@@ -7,7 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
-export const KeyboardAwareLayout = (props) => {
+export const KeyboardAwareLayout = props => {
     return (
         <KeyboardAwareScrollView
             contentContainerStyle = {styles.container}

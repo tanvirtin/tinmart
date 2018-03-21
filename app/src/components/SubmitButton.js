@@ -11,7 +11,7 @@ import Button from 'apsl-react-native-button';
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
-export const SubmitButton = (props) => {
+export const SubmitButton = props => {
     return (
         <Button
             activeOpacity = {1.0}

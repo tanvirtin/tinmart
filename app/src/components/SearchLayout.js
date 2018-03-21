@@ -23,7 +23,7 @@ const appInfo = require('../../appInfo.json');
 
 // TODO - Pass functions as props which extracts the text and makes queries to the server from the input box
 
-export const SearchLayout = (props) => {
+export const SearchLayout = props => {
     return (
         <Container style = {styles.container}>
             <Content>
@@ -55,7 +55,7 @@ const styles = {
     },
     // flex with the value 4 is very important in order to space the elements close to each other
     searchBar: {
-        flex:4,
-        marginRight: '5%'
+        flex: 4,
+        marginRight: '6%'
     }
 };

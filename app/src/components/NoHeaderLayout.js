@@ -10,7 +10,7 @@ import { View } from 'react-native';
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
-export const NoHeaderLayout = (props) => {
+export const NoHeaderLayout = props => {
     return (
         <View style = {styles.container}>
             {props.children}
@@ -23,9 +23,6 @@ export const NoHeaderLayout = (props) => {
 const styles = {
     container: {
         flex:1,
-        backgroundColor: 'white',
-        // justifyContent squishes items in the y axis towards the center
-        // where alignItems squishes items in the x axis towards the center
-        justifyContent: 'center'
+        backgroundColor: 'white'
     }
 };

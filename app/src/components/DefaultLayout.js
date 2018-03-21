@@ -16,7 +16,7 @@ import {
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
-export const DefaultLayout = (props) => {
+export const DefaultLayout = props => {
     return (
         <Container style = {styles.container}>
             <Content>

@@ -9,7 +9,7 @@ import {
 // contains basic information about the app
 const appInfo = require('../../appInfo.json');
 
-export const Logo = (props) => {
+export const Logo = props => {
     // checks if a style prop is given to the component
     const propsIsUndefined = props.style === undefined ? true : false;
 
@@ -34,6 +34,7 @@ const styles = {
         color: appInfo.themeColor,
         fontSize: 50,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '75%'
     }
 }

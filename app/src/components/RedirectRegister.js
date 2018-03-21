@@ -7,7 +7,7 @@ import { Text } from 'react-native';
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
 
-export const RedirectRegister = (props) => {
+export const RedirectRegister = props => {
     return (
         <Body style = {styles.redirect}>
             <Text style = {styles.text}>No account? <Text style = {styles.redirectLink} onPress = {props.onRegister}> Create one! </Text></Text>
