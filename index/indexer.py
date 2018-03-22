@@ -10,6 +10,7 @@ class IndexController(object):
     def __init__(self):
         # when the object is instantiated connect to the walmartcrawler database in mongodb
         connect('walmartcrawler')
+        self.elasticsearchcli = ElasticSearchCli('tinmart')
 
     def __create_lucene_dict(self, crawler_document):
         return {
@@ -23,7 +24,11 @@ class IndexController(object):
             'tags': crawler_document.tags
         }
 
+    '''
+        indexes all the documents in mongodb in a multithreaded fashion
+    '''
     def index_crawled_documents(self):
         crawler_documents = CrawlerDocument.objects
         for crawler_document in crawler_documents:
             lucene_document = self.__create_lucene_dict(crawler_document)
+            self.elasticsearchcli.index_document(lucene_document)
