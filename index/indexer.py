@@ -1,7 +1,10 @@
 from models import CrawlerDocument
 from mongoengine import connect
-from threading import Thread
+from threading import Thread, Lock
 from elasticsearchcli import ElasticSearchCli
+import logging
+
+logging.basicConfig(level = logging.DEBUG)
 
 '''
     Class is responsible for managing the index
@@ -12,6 +15,8 @@ class IndexController(object):
         connect('walmartcrawler')
         self.index_name = 'tinmart'
         self.elasticsearchcli = ElasticSearchCli(self.index_name)
+        self.lock = Lock()
+        self.num_doc_indexed = 0
 
     def __create_lucene_dict(self, crawler_document):
         return {
@@ -25,6 +30,9 @@ class IndexController(object):
             'tags': crawler_document.tags
         }
 
+    def get_num_doc_indexed(self):
+        return self.num_doc_indexed
+
 
     def __add_document(self, crawler_document):
         lucene_document = self.__create_lucene_dict(crawler_document)
@@ -32,7 +40,12 @@ class IndexController(object):
         status = self.elasticsearchcli.index_document('products', docId, lucene_document)
         
         if status:
-            print('Document -> {} indexed...'.format(docId))
+            logging.debug('Document -> {} indexed...'.format(docId))
+
+            # lock the variable and increment it
+            self.lock.acquire()
+            self.num_doc_indexed += 1
+            self.lock.release();
   
     '''
         Indexes all the documents in mongodb in a multithreaded fashion
@@ -49,5 +62,5 @@ class IndexController(object):
         Deletes an index from the database
     '''
     def delete_index(self):
-        print('Index {} removed...'.format(self.index_name))
+        logging.debug('Index {} removed...'.format(self.index_name))
         status = self.elasticsearchcli.delete_index()
