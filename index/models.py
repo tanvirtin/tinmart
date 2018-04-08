@@ -2,7 +2,7 @@ from mongoengine import Document, IntField, StringField, ListField, DictField
 
 # model responsible for interacting with crawler_documents collection in walmartcrawler databse in mongodb
 class CrawlerDocument(Document):
-    docId = IntField()
+    docId = StringField()
     url = StringField()
     title = StringField()
     description = StringField()
