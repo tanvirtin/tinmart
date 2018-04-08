@@ -1,9 +1,11 @@
 // Dumb component
 
 import React, { Component } from 'react';
+
 import {
     TouchableOpacity
 } from 'react-native';
+
 import {
     Container,
     Content,
@@ -13,10 +15,11 @@ import {
     Body,
     Icon,
     Text,
-    Item,
-    Input,
     Button,
 } from 'native-base';
+
+import { SearchBar } from './SearchBar';
+
 
 // json file that contains basic information about the app such as name and theme color
 const appInfo = require('../../appInfo.json');
@@ -33,10 +36,7 @@ export const SearchLayout = props => {
                             <Icon name = 'menu'/>
                         </Button>
                     </Left>
-                    <Item style = {styles.searchBar}>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Search" />
-                    </Item>
+                    <SearchBar style = {styles.searchBar}/>
                 </Header>
                 {props.children}
             </Content>
