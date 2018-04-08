@@ -16,7 +16,5 @@ export const ActivitySpinner = props => {
 }
 
 const styles = {
-    container: {
-
-    }
+    container: {}
 }

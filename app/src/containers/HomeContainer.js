@@ -65,12 +65,18 @@ class HomeContainer extends Component {
     }
 
     render() {
+        // here loading being const doesn't matter because render method is invoked when this.props.homeUI changes
+        // when it does change the variable loading gets destroyed from memory as the previous render function no longer exists in stack,
+        // as the new render function gets indexed in the callstack again the const loading gets recreated.
+        const loading = this.props.homeUI.loading;
         return (
             <SearchLayout
                 onMenuPress = {this.onMenuPress}
                 title = {'Home'}
                 searchBarOnEndEditing = {this.searchBarOnEndEditing}
             >
+            {/* This is saying that if homeUI.loading is true then only render this element */}
+            {loading && <ActivitySpinner/>}
             </SearchLayout>
         );
     }
