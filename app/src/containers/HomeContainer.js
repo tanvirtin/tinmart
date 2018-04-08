@@ -58,7 +58,9 @@ class HomeContainer extends Component {
     }
 
     searchBarOnEndEditing() {
-        alert('Editing ended!');
+        this.props.submitSearch('test').then(response => {
+            alert(response);
+        });
     }
 
     render() {
@@ -73,16 +75,18 @@ class HomeContainer extends Component {
     }
 }
 
-// returns an object
+// function returns an object which gets passed inside connect, this allows the props object to contain attributes of the object attributes returned by this function
 const mapStateToProps = (appState, navigationState) => ({
     navigation: navigationState.navigation,
     screenProps: navigationState.screenProps,
-    navigatorStack: appState.navigatorStack
+    navigatorStack: appState.navigatorStack,
+    homeUI: appState.homeUI
 });
 
-// returns an object
+// function returns an object which gets passed inside connect, this allows the props object to contain attributes of the attributes object returned by the function
 const mapDispatchToProps = dispatch => ({
-    showToast: message => dispatch(ToastActionsCreators.displayInfo(message, this.toastTime))
+    showToast: message => dispatch(ToastActionsCreators.displayInfo(message, this.toastTime)),
+    submitSearch: term => dispatch(actions.submitSearch(term))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

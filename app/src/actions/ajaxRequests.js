@@ -53,7 +53,7 @@ export const put = (route, putData, {loadingOn, loadingOff, action}) => {
 }
 
                            // destructing an object passed through the parameter
-                           // here loadinOn, loadingOff and action are all action creators which are functions which gets passed in that returns an action object
+                           // here loadinOn, loadingOff and action (additional action that you may want to invoke) are all action creators which are functions which gets passed in that returns an action object
 export const get = (route, {loadingOn, loadingOff, action}) => {
     return (dispatch, getState) => {
         // check if loadinOn is not undefined

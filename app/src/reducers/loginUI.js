@@ -22,7 +22,7 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
 
-        // copy over the original state using deep copy and then change the loading attribute to false
+        // copy over the original state using deep copy and then change the loading attribute to true
         case LOGIN_LOADING_ON:
             return {...state, loading: true};
 

@@ -2,7 +2,6 @@
 
 // import the all the types of action that these action creators will create
 import {
-    SUBMIT_SEARCH,
     HOME_LOADING_ON,
     HOME_LOADING_OFF
 } from '../constants/actionTypes';

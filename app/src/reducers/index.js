@@ -11,6 +11,7 @@ import registerForm from './registerForm';
 import loginUI from './loginUI';
 import loginForm from './loginForm';
 import loginStatus from './loginStatus';
+import homeUI from './homeUI';
 
 export default combineReducers({
     navigatorStack,
@@ -19,5 +20,6 @@ export default combineReducers({
     registerForm,
     loginUI,
     loginForm,
-    loginStatus
+    loginStatus,
+    homeUI
 });
