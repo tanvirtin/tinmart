@@ -10,7 +10,7 @@ SECRET_KEY = '@yuewxtm@q^^r&&zm=kfrkrkm4o+6vs!^5$!wj)p5tm%+f8z_*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.0.22']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.0.22', '192.168.56.1']
 
 
 # Application definition
@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'accounts.apps.AccountsConfig',
-    'search.apps.AccountsConfig'
+    'search.apps.SearchConfig'
 ]
 
 MIDDLEWARE = [
