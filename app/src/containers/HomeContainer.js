@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 
 import { SearchLayout } from '../components/SearchLayout';
+import { ActivitySpinner } from '../components/ActivitySpinner';
 
 import { connect } from 'react-redux';
 
