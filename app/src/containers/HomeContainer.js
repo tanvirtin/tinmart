@@ -28,6 +28,10 @@ class HomeContainer extends Component {
         // passed into different scopes
         this.onBackPress = this.onBackPress.bind(this);
 
+        // the HomeContainer scope 'this' needs to be binded to the function searchBarOnEndEditing
+        // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
+        this.searchBarOnEndEditing = this.searchBarOnEndEditing.bind(this);
+
         this.toastTime = 2000;
     }
 
@@ -53,13 +57,17 @@ class HomeContainer extends Component {
         this.props.navigation.navigate('DrawerOpen');
     }
 
+    searchBarOnEndEditing() {
+        alert('Editing ended!');
+    }
+
     render() {
         return (
             <SearchLayout
                 onMenuPress = {this.onMenuPress}
                 title = {'Home'}
+                searchBarOnEndEditing = {this.searchBarOnEndEditing}
             >
-
             </SearchLayout>
         );
     }

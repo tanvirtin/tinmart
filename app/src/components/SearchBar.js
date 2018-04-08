@@ -3,10 +3,6 @@
 import React, { Component } from 'react';
 
 import {
-    TouchableOpacity
-} from 'react-native';
-
-import {
     Item,
     Icon,
     Input
@@ -19,7 +15,7 @@ export const SearchBar = props => {
     return (
         <Item style = {props.style}>
             <Icon name = 'ios-search'/>
-            <Input placeholder = 'Search'/>
+            <Input onEndEditing = {props.onEndEditing} placeholder = 'Search'/>
         </Item>
     );
 }
