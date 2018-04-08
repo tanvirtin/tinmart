@@ -15,9 +15,7 @@ class IndexController(object):
         connect('walmartcrawler')
         self.index_name = 'tinmart'
         self.elasticsearchcli = ElasticSearchCli(self.index_name)
-        self.lock = Lock()
-        self.num_doc_indexed = 0
-
+        
     def __create_lucene_dict(self, crawler_document):
         return {
             'docId': crawler_document.docId,
@@ -30,22 +28,13 @@ class IndexController(object):
             'tags': crawler_document.tags
         }
 
-    def get_num_doc_indexed(self):
-        return self.num_doc_indexed
-
-
     def __add_document(self, crawler_document):
         lucene_document = self.__create_lucene_dict(crawler_document)
         docId = str(lucene_document['docId'])
         status = self.elasticsearchcli.index_document('products', docId, lucene_document)
         
         if status:
-            logging.debug('Document -> {} indexed...'.format(docId))
-
-            # lock the variable and increment it
-            self.lock.acquire()
-            self.num_doc_indexed += 1
-            self.lock.release();
+            logging.debug('Document: {} indexed...'.format(docId))
   
     '''
         Indexes all the documents in mongodb in a multithreaded fashion
