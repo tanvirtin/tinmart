@@ -12,13 +12,11 @@ const appInfo = require('../../appInfo.json');
 
 // responsible for the Title in the Drawer component
 export const DrawerTitle = props => {
-
-    console.log(props.loginStatus);
-
     return (
         <View style = {styles.container}>
             <Logo style = {styles.logo}/>
-            <Text style = {styles.loginText}> SIGN IN </Text>
+            {/* Comment this out when you improve the app to allow login and registration */}
+            {/* <Text style = {styles.loginText}> SIGN IN </Text> */}
         </View>
     );
 }
