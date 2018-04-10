@@ -54,3 +54,5 @@ export const AUTHENTICATION_COMPLETE = 'AUTHENTICATION_COMPLETE';
 // Home View actions
 export const HOME_LOADING_ON = 'HOME_LOADING_ON';
 export const HOME_LOADING_OFF = 'HOME_LOADING_OFF';
+export const STORE_TERM = 'STORE_TERM';
+export const CLEAR_TERM = 'CLEAR_TERM';

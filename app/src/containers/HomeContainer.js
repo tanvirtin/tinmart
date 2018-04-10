@@ -60,6 +60,9 @@ class HomeContainer extends Component {
      * Detach the hardware back button handler on component did mount when the component is unmounting/
      */
     componentWillUnmount() {
+        // on component will unmount the search term stored in the store as an attribute of the reducer state homeSearch
+        // which is an object which is an attribute of the store's state itself gets cleard out
+        props.clearTerm();
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
@@ -86,23 +89,18 @@ class HomeContainer extends Component {
      * @param text the string that gets passed by the input box to this funciton, this string represents the string currently in the input box on change text
      */
     searchBarOnChangeText(text) {
-
-        // invoke the object which saves the query text
-
-
-
+        // on change text the action to store the term gets invoked
+        this.props.storeTerm(text);
     }
 
     /**
      * A function that gets invoked when the enter button is pressed on the keyboard after you finish typing something inside the input box
      */
     searchBarOnEndEditing() {
-
-
-
+        alert(this.props.homeSearch.term);
         // make the get request by attaching the term to the string
         this.props.submitSearch(this.term).then(response => {
-            alert(response);
+
         });
     }
 
@@ -138,7 +136,8 @@ class HomeContainer extends Component {
     navigation: navigationState.navigation,
     screenProps: navigationState.screenProps,
     navigatorStack: appState.navigatorStack,
-    homeUI: appState.homeUI
+    homeUI: appState.homeUI,
+    homeSearch: appState.homeSearch
 });
 
 /**
@@ -148,7 +147,9 @@ class HomeContainer extends Component {
  */
 const mapDispatchToProps = dispatch => ({
     showToast: message => dispatch(ToastActionsCreators.displayInfo(message, this.toastTime)),
-    submitSearch: term => dispatch(actions.submitSearch(term))
+    submitSearch: term => dispatch(actions.submitSearch(term)),
+    storeTerm: term => dispatch(actions.storeTerm(term)),
+    clearTerm: () => dispatch(actions.clearTerm())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

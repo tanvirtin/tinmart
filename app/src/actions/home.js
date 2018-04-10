@@ -3,7 +3,8 @@
 // import the all the types of action that these action creators will create
 import {
     HOME_LOADING_ON,
-    HOME_LOADING_OFF
+    HOME_LOADING_OFF,
+    STORE_TERM
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -25,4 +26,15 @@ export const submitSearch = term => get('search/' + term, {
     // same thing as writing {loadingOn: loadingOn, loadingOff: loadingOff}
     loadingOn,
     loadingOff
+});
+
+// action creator takes term through its parameter and creates an object which contains the term and the type of action
+export const storeTerm = term => ({
+    type: STORE_TERM,
+    term
+});
+
+// action creator creates an action object with type 'CLEAR_TERM'
+export const clearTerm = () => ({
+    type: CLEAR_TERM
 });
