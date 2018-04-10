@@ -16,7 +16,14 @@ import { ToastActionsCreators } from 'react-native-redux-toast';
 
 class HomeContainer extends Component {
 
+    /**
+     * Constructor for the smart container HomeComponent
+     * @param props The props that gets passed down to this component by its parent component
+     */
     constructor(props) {
+        // base class constructor
+        super(props);
+
         // construct the base class passing the props parameter passed in through the constructor of the sub class
         super(props);
 
@@ -33,19 +40,32 @@ class HomeContainer extends Component {
         // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
         this.searchBarOnEndEditing = this.searchBarOnEndEditing.bind(this);
 
+        // the HomeContainer scope 'this' needs to be binded to the function searchBarOnChangeText
+        // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
+        this.searchBarOnChangeText = this.searchBarOnChangeText.bind(this);
+
         this.toastTime = 2000;
     }
 
-    // attach a hardware back button event handler
+    /**
+     * React life cycle event handler that gets triggered when the component has finished rendering.
+     * Upon finishing the rendering a back button event handler is attached.
+     */
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
     }
 
-    // detach the hardware back button handler on component did mount when the component is unmounting
+    /**
+     * React life cycle event handler that gets triggered when the component is about to get unmounted from the view.
+     * Detach the hardware back button handler on component did mount when the component is unmounting/
+     */
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
+    /**
+     * A function that gets triggered when the back hardware button is pressed
+     */
     onBackPress() {
         this.props.navigation.navigate('DrawerClose');
 
@@ -54,16 +74,41 @@ class HomeContainer extends Component {
         return true;
     }
 
+    /**
+     * Event handler that gets invoked when the menu button is pressed, this function opens the drawer.
+     */
     onMenuPress() {
         this.props.navigation.navigate('DrawerOpen');
     }
 
+    /**
+     * A function that gets invoked everytime the text changes inside a text field
+     * @param text the string that gets passed by the input box to this funciton, this string represents the string currently in the input box on change text
+     */
+    searchBarOnChangeText(text) {
+
+        // invoke the object which saves the query text
+
+
+
+    }
+
+    /**
+     * A function that gets invoked when the enter button is pressed on the keyboard after you finish typing something inside the input box
+     */
     searchBarOnEndEditing() {
-        this.props.submitSearch('test').then(response => {
+
+
+
+        // make the get request by attaching the term to the string
+        this.props.submitSearch(this.term).then(response => {
             alert(response);
         });
     }
 
+    /**
+     * This function will get invoked everytime react updates its DOM (Document Object Model)
+     */
     render() {
         // here loading being const doesn't matter because render method is invoked when this.props.homeUI changes
         // when it does change the variable loading gets destroyed from memory as the previous render function no longer exists in stack,
@@ -74,6 +119,7 @@ class HomeContainer extends Component {
                 onMenuPress = {this.onMenuPress}
                 title = {'Home'}
                 searchBarOnEndEditing = {this.searchBarOnEndEditing}
+                searchBarOnChangeText = {this.searchBarOnChangeText}
             >
             {/* This is saying that if homeUI.loading is true then only render this element */}
             {loading && <ActivitySpinner/>}
@@ -82,15 +128,24 @@ class HomeContainer extends Component {
     }
 }
 
-// function returns an object which gets passed inside connect, this allows the props object to contain attributes of the object attributes returned by this function
-const mapStateToProps = (appState, navigationState) => ({
+/**
+ * Function returns an object which gets passed inside connect, this allows the props object to contain attributes of the object attributes returned by this function
+ * @param appState an object which has all the redux states as attributes
+ * @param navigationState contains an object which has all the navigator stack states
+ * @return returns an object which gets passed inside connect, this allows the props object to contain attributes of the object attributes returned by this function
+ */
+ const mapStateToProps = (appState, navigationState) => ({
     navigation: navigationState.navigation,
     screenProps: navigationState.screenProps,
     navigatorStack: appState.navigatorStack,
     homeUI: appState.homeUI
 });
 
-// function returns an object which gets passed inside connect, this allows the props object to contain attributes of the attributes object returned by the function
+/**
+ * Fnction returns an object which gets passed inside connect, this allows the props object to contain attributes of the attributes object returned by the function
+ * @param dispatch The dispatch attribute is the dispatch function that is used to check all the reducers in Redux for a given action
+ * @return returns an object which gets passed inside connect, this allows the props object to contain attributes of the attributes object returned by the function
+ */
 const mapDispatchToProps = dispatch => ({
     showToast: message => dispatch(ToastActionsCreators.displayInfo(message, this.toastTime)),
     submitSearch: term => dispatch(actions.submitSearch(term))

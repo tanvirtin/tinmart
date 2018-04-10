@@ -15,7 +15,8 @@ export const SearchBar = props => {
     return (
         <Item style = {props.style}>
             <Icon name = 'ios-search'/>
-            <Input onEndEditing = {props.onEndEditing} placeholder = 'Search'/>
+            {/* The props that need to be passed are onChangeText and onEndEditing */}
+            <Input onChangeText = {props.onChangeText} onEndEditing = {props.onEndEditing} placeholder = 'Search'/>
         </Item>
     );
 }

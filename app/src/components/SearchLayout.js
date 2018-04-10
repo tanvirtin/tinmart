@@ -36,7 +36,7 @@ export const SearchLayout = props => {
                             <Icon name = 'menu'/>
                         </Button>
                     </Left>
-                    <SearchBar onEndEditing = {props.searchBarOnEndEditing} style = {styles.searchBar}/>
+                    <SearchBar onChangeText = {props.searchBarOnChangeText} onEndEditing = {props.searchBarOnEndEditing} style = {styles.searchBar}/>
                 </Header>
                 {props.children}
             </Content>
