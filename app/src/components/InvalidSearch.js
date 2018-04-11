@@ -35,6 +35,6 @@ const style = {
         // since the only item/component we have is the Text component it will be pushed to the center
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: '70%'
+        marginTop: '60%'
     }
 }

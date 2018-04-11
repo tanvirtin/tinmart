@@ -2,3 +2,4 @@ rest_framework
 djangorestframework-jwt
 graphene-django
 mongoengine
+django-rest-framework-mongoengine

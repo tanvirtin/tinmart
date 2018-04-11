@@ -102,14 +102,19 @@ class HomeContainer extends Component {
         
         let status = response.status;
 
+        // get the response json object
+        let resJson = response.data;
+
         // if the status is greater than 201 then it means the server returned an error
         if (status > 201) {
-            let resJson = response.data;
             let errorMessage = resJson.message;
             // display the message that product not found
             this.props.noProductFound();
         } else {
             // else we succeeded in getting a positive response
+            let resJson = response.data;
+
+            alert(JSON.stringify(resJson));
 
             // display the message that product was found
             this.props.productFound();
