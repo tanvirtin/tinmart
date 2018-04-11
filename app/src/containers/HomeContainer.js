@@ -4,15 +4,16 @@ import React, { Component } from 'react';
 
 import { SearchLayout } from '../components/SearchLayout';
 import { ActivitySpinner } from '../components/ActivitySpinner';
+import { InvalidSearch } from '../components/InvalidSearch';
 
 import { connect } from 'react-redux';
 
 import { BackHandler } from 'react-native';
 
+import { Text } from 'native-base';
+
 // Imports all action functions as an actions object
 import * as actions from '../actions/home';
-
-import { ToastActionsCreators } from 'react-native-redux-toast';
 
 class HomeContainer extends Component {
 
@@ -99,15 +100,19 @@ class HomeContainer extends Component {
         // make the get request by attaching the term to the string
         let response = await this.props.submitSearch(term);
         
-        let resJson = response.data;
+        let status = response.status;
 
         // if the status is greater than 201 then it means the server returned an error
-        if (resJson.status > 201) {
+        if (status > 201) {
+            let resJson = response.data;
             let errorMessage = resJson.message;
-
-
+            // display the message that product not found
+            this.props.noProductFound();
         } else {
             // else we succeeded in getting a positive response
+
+            // display the message that product was found
+            this.props.productFound();
         }
     }
 
@@ -119,6 +124,7 @@ class HomeContainer extends Component {
         // when it does change the variable loading gets destroyed from memory as the previous render function no longer exists in stack,
         // as the new render function gets indexed in the callstack again the const loading gets recreated.
         const loading = this.props.homeUI.loading;
+        const productNotFound = this.props.homeUI.productNotFound;
         return (
             <SearchLayout
                 onMenuPress = {this.onMenuPress}
@@ -128,6 +134,8 @@ class HomeContainer extends Component {
             >
             {/* This is saying that if homeUI.loading is true then only render this element */}
             {loading && <ActivitySpinner/>}
+            {/* This is saying that if homeUI.productNotFound is true then only render this element */}
+            {productNotFound && <InvalidSearch message = {"product not found"}/>}
             </SearchLayout>
         );
     }
@@ -156,7 +164,9 @@ const mapDispatchToProps = dispatch => ({
     showToast: message => dispatch(ToastActionsCreators.displayInfo(message, this.toastTime)),
     submitSearch: term => dispatch(actions.submitSearch(term)),
     storeTerm: term => dispatch(actions.storeTerm(term)),
-    clearTerm: () => dispatch(actions.clearTerm())
+    clearTerm: () => dispatch(actions.clearTerm()),
+    noProductFound: () => dispatch(actions.noProductFound()),
+    productFound: () => dispatch(actions.productFound())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

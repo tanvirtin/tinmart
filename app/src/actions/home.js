@@ -4,7 +4,10 @@
 import {
     HOME_LOADING_ON,
     HOME_LOADING_OFF,
-    STORE_TERM
+    STORE_TERM,
+    CLEAR_TERM,
+    NO_PRODUCT_FOUND,
+    PRODUCT_FOUND
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -37,4 +40,12 @@ export const storeTerm = term => ({
 // action creator creates an action object with type 'CLEAR_TERM'
 export const clearTerm = () => ({
     type: CLEAR_TERM
+});
+
+export const noProductFound = () => ({
+    type: NO_PRODUCT_FOUND
+});
+
+export const productFound = () => ({
+    type: PRODUCT_FOUND
 });
