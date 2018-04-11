@@ -38,7 +38,7 @@ export const put = (route, putData, {loadingOn, loadingOff, action}) => {
             // val in the .then((val) => {}) will be the response object
             return response; // sends back the response object which will have an attribute called status which will give the success code
         })
-        // error occurs usually when status.code is not equal to 200, or when server returns a negative code
+        // error occurs usually when status.code is greater than 200, or when server returns a negative code
         .catch(error => {
             // check if loadingOff is not undefined
             if (loadingOff) {
@@ -55,6 +55,7 @@ export const put = (route, putData, {loadingOn, loadingOff, action}) => {
                            // destructing an object passed through the parameter
                            // here loadinOn, loadingOff and action (additional action that you may want to invoke) are all action creators which are functions which gets passed in that returns an action object
 export const get = (route, {loadingOn, loadingOff, action}) => {
+    // REDUX WILL INVOKE THE FUNCTION THAT IS BEING RETURNED AND THEN RETURN WHATEVER THIS FUNCTION RETURNS
     return (dispatch, getState) => {
         // check if loadinOn is not undefined
         if (loadingOn) {
@@ -82,6 +83,7 @@ export const get = (route, {loadingOn, loadingOff, action}) => {
             // remember when a .then() procedure returns something you get another promise back
             return response;
         })
+        // error object will get passed when the server response is greater than 201
         .catch(error => {
             // check if loadingOff is not undefined
             if (loadingOff) {
@@ -91,7 +93,7 @@ export const get = (route, {loadingOn, loadingOff, action}) => {
 
             // response object is returned which is an attribute of the error object
             // remember when a .then() procedure returns something you get another promise back
-            return error.respose;
+            return error.response;
         });
     }
 }

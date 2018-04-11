@@ -21,9 +21,6 @@ class HomeContainer extends Component {
      * @param props The props that gets passed down to this component by its parent component
      */
     constructor(props) {
-        // base class constructor
-        super(props);
-
         // construct the base class passing the props parameter passed in through the constructor of the sub class
         super(props);
 
@@ -96,12 +93,22 @@ class HomeContainer extends Component {
     /**
      * A function that gets invoked when the enter button is pressed on the keyboard after you finish typing something inside the input box
      */
-    searchBarOnEndEditing() {
-        alert(this.props.homeSearch.term);
+    async searchBarOnEndEditing() {
+        // the term in the input box is the query with which the get request to the server is send
+        let term = this.props.homeSearch.term;
         // make the get request by attaching the term to the string
-        this.props.submitSearch(this.term).then(response => {
+        let response = await this.props.submitSearch(term);
+        
+        let resJson = response.data;
 
-        });
+        // if the status is greater than 201 then it means the server returned an error
+        if (resJson.status > 201) {
+            let errorMessage = resJson.message;
+
+
+        } else {
+            // else we succeeded in getting a positive response
+        }
     }
 
     /**

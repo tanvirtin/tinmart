@@ -7,7 +7,7 @@ from search import views
 
 urlpatterns = [
     # test path
-    path('test', views.Test.as_view())
+    path('<str:term>', views.Search.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -81,7 +81,7 @@ class ElasticSearchCli(object):
 
         :param str category: the category that this document will belong to
         :param str query_string: the string with which the index is searched
-        :return: json response from the elasticsearch server
+        :return: json response from the elasticsearch server converted into a dictionary
         :rtype: dict
         :raises ValueError: if category and query_string is not a string
     '''
