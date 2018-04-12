@@ -45,6 +45,10 @@ class HomeContainer extends Component {
         // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
         this.onAddToCart = this.onAddToCart.bind(this);
 
+        // the HomeContainer scope 'this' needs to be binded to the function onCartPress
+        // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
+        this.onCartPress = this.onCartPress.bind(this);
+
         this.toastTime = 2000;
 
         // keep a list of basic card items
@@ -104,6 +108,14 @@ class HomeContainer extends Component {
     onAddToCart(itemIndex) {
         const basicCardItem = this.basicCardItems[itemIndex];
         alert(JSON.stringify(basicCardItem));
+    }
+
+    /**
+     * Button event handler method that gets passed inside the scope of SearchLayout component where when you click on the
+     * cart icon you go to page filled with items
+     */
+    onCartPress() {
+        alert('Pressed cart!')
     }
 
     /**
@@ -174,6 +186,9 @@ class HomeContainer extends Component {
                 title = {'Home'}
                 searchBarOnEndEditing = {this.searchBarOnEndEditing}
                 searchBarOnChangeText = {this.searchBarOnChangeText}
+                showBadge = {false}
+                numCartItems = {0}
+                onCartPress = {this.onCartPress}
             >
                 {/* This is saying that if homeUI.loading is true then only render this element */}
                 {loading && <ActivitySpinner/>}

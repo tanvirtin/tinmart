@@ -16,6 +16,7 @@ import {
     Icon,
     Text,
     Button,
+    Badge
 } from 'native-base';
 
 import { SearchBar } from './SearchBar';
@@ -41,6 +42,12 @@ export const SearchLayout = props => {
                         <Button transparent onPress = {props.onCartPress}>
                             <Icon name = 'md-cart'/>
                         </Button>
+                        {/* Badge gets displayed only if a prop is passed which is expected to be a boolean is true*/}
+                        {props.showBadge &&
+                            <Badge style = {styles.badge}>
+                                <Text style = {styles.badgeText}>{props.numCartItems}</Text>
+                            </Badge>
+                        }
                     </Right>
                 </Header>
                 {props.children}
@@ -67,5 +74,16 @@ const styles = {
     },
     cart: {
         flex: 0.9
+    },
+    badge: {
+        position: 'absolute',
+        height: 28,
+        width: 25,
+        right: '-19%',
+        top: '-10%'
+    },
+    badgeText: {
+        fontSize: 12,
     }
+
 };
