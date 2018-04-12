@@ -30,6 +30,11 @@ export const BasicItemCard = props => {
                         <Text note> {props.category} </Text>
                     </Body>
                 </Left>
+                <Right style = {styles.addToCart}>
+                    <Button transparent onPress = {props.onAddToCart}>
+                        <Icon name = 'add' style = {styles.addToCartIcon}/>
+                    </Button>
+                </Right>
             </CardItem>
             <CardItem cardBody>
                 <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
@@ -39,7 +44,7 @@ export const BasicItemCard = props => {
                     <Text> {props.description} </Text>
                 </Left>
                 <Right>
-                    <Text style = {styles.price}> {props.price} </Text>
+                    <Text style = {styles.price}> $ {props.price} </Text>
                 </Right>
             </CardItem>
         </Card>
@@ -47,6 +52,13 @@ export const BasicItemCard = props => {
 }
 
 const styles = {
+    addToCart: {
+        // paddingBottom to shift the icon up a bit
+        paddingBottom: '10%'
+    },
+    addToCartIcon: {
+        color: 'black',
+    },
     cardImg: {
         height: 200, 
         width: null, 

@@ -23,7 +23,7 @@ class IndexController(object):
             'description': crawler_document.description,
             'features': crawler_document.features,
             'category': crawler_document.category,
-            'subCategory': crawler_document.subCategory,
+            'subCategories': crawler_document.subCategories,
             'price': crawler_document.price,
             'text': crawler_document.text,
             'tags': crawler_document.tags
