@@ -5,12 +5,11 @@ import React, { Component } from 'react';
 import { SearchLayout } from '../components/SearchLayout';
 import { ActivitySpinner } from '../components/ActivitySpinner';
 import { InvalidSearch } from '../components/InvalidSearch';
+import { BasicItemCard } from '../components/BasicItemCard';
 
 import { connect } from 'react-redux';
 
 import { BackHandler } from 'react-native';
-
-import { Text } from 'native-base';
 
 // Imports all action functions as an actions object
 import * as actions from '../actions/home';
@@ -43,6 +42,9 @@ class HomeContainer extends Component {
         this.searchBarOnChangeText = this.searchBarOnChangeText.bind(this);
 
         this.toastTime = 2000;
+
+        // keep a list of basic card items
+        this.basicCardItems = [];
     }
 
     /**
@@ -89,12 +91,16 @@ class HomeContainer extends Component {
     searchBarOnChangeText(text) {
         // on change text the action to store the term gets invoked
         this.props.storeTerm(text);
+        this.props.productFound();
     }
 
     /**
      * A function that gets invoked when the enter button is pressed on the keyboard after you finish typing something inside the input box
      */
     async searchBarOnEndEditing() {
+        this.props.productFound();
+        // empty out the list so that the old card items get removed to make room for the new one
+        this.basicCardItems = [];
         // the term in the input box is the query with which the get request to the server is send
         let term = this.props.homeSearch.term;
         // make the get request by attaching the term to the string
@@ -112,9 +118,17 @@ class HomeContainer extends Component {
             this.props.noProductFound();
         } else {
             // else we succeeded in getting a positive response
-            let resJson = response.data;
+            let resObject = response.data;
 
-            alert(JSON.stringify(resJson));
+            let resJson = JSON.parse(resObject);
+            
+            let listOfProducts = resJson.products;
+
+            for (let i = 0; i < listOfProducts.length; ++i) {
+                let product = listOfProducts[i];
+                let basicCardItem = <BasicItemCard key = {i} title = {product.title} productImg = {product.productImgUrls[0]} description = {product.description} price = {product.price}/>
+                this.basicCardItems.push(basicCardItem);
+            }
 
             // display the message that product was found
             this.props.productFound();
@@ -130,6 +144,7 @@ class HomeContainer extends Component {
         // as the new render function gets indexed in the callstack again the const loading gets recreated.
         const loading = this.props.homeUI.loading;
         const productNotFound = this.props.homeUI.productNotFound;
+        const basicCardItems = this.basicCardItems;
         return (
             <SearchLayout
                 onMenuPress = {this.onMenuPress}
@@ -137,10 +152,11 @@ class HomeContainer extends Component {
                 searchBarOnEndEditing = {this.searchBarOnEndEditing}
                 searchBarOnChangeText = {this.searchBarOnChangeText}
             >
-            {/* This is saying that if homeUI.loading is true then only render this element */}
-            {loading && <ActivitySpinner/>}
-            {/* This is saying that if homeUI.productNotFound is true then only render this element */}
-            {productNotFound && <InvalidSearch message = {"product not found"}/>}
+                {/* This is saying that if homeUI.loading is true then only render this element */}
+                {loading && <ActivitySpinner/>}
+                {/* This is saying that if homeUI.productNotFound is true then only render this element */}
+                {productNotFound && <InvalidSearch message = {"product not found"}/>}
+                {!productNotFound && basicCardItems}
             </SearchLayout>
         );
     }
