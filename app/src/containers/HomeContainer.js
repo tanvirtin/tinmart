@@ -188,14 +188,24 @@ class HomeContainer extends Component {
         const loading = this.props.homeUI.loading;
         const productNotFound = this.props.homeUI.productNotFound;
         const basicCardItems = this.basicCardItems;
+        // number of products in the cart is taken out from the cartItems reducer's state
+        const numberOfProductsInCart = this.props.cartItems.products.length;
+
+        // this boolean will indicate if the cart badge gets shown or not
+        let displayBadge = false;
+        // if the numberOfProductsInCart retrieved via the products retrieved from the redux store is not 0 then we display the badge
+        if (numberOfProductsInCart !== 0) {
+            displayBadge = true;
+        }
+
         return (
             <SearchLayout
                 onMenuPress = {this.onMenuPress}
                 title = {'Home'}
                 searchBarOnEndEditing = {this.searchBarOnEndEditing}
                 searchBarOnChangeText = {this.searchBarOnChangeText}
-                showBadge = {false}
-                numCartItems = {0}
+                showBadge = {displayBadge}
+                numCartItems = {numberOfProductsInCart}
                 onCartPress = {this.onCartPress}
             >
                 {/* This is saying that if homeUI.loading is true then only render this element */}
@@ -219,7 +229,9 @@ class HomeContainer extends Component {
     screenProps: navigationState.screenProps,
     navigatorStack: appState.navigatorStack,
     homeUI: appState.homeUI,
-    homeSearch: appState.homeSearch
+    homeSearch: appState.homeSearch,
+    // will contain all products in the cartItem
+    cartItems: appState.cartItems
 });
 
 /**
