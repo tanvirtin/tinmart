@@ -41,6 +41,10 @@ class HomeContainer extends Component {
         // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
         this.searchBarOnChangeText = this.searchBarOnChangeText.bind(this);
 
+        // the HomeContainer scope 'this' needs to be binded to the function onAddToCart
+        // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
+        this.onAddToCart = this.onAddToCart.bind(this);
+
         this.toastTime = 2000;
 
         // keep a list of basic card items
@@ -95,6 +99,14 @@ class HomeContainer extends Component {
     }
 
     /**
+     * @param itemIndex the index which with which the this.basicCardItems array gets accessed
+     */
+    onAddToCart(itemIndex) {
+        const basicCardItem = this.basicCardItems[itemIndex];
+        alert(JSON.stringify(basicCardItem));
+    }
+
+    /**
      * A function that gets invoked when the enter button is pressed on the keyboard after you finish typing something inside the input box
      */
     async searchBarOnEndEditing() {
@@ -102,31 +114,42 @@ class HomeContainer extends Component {
         // empty out the list so that the old card items get removed to make room for the new one
         this.basicCardItems = [];
         // the term in the input box is the query with which the get request to the server is send
-        let term = this.props.homeSearch.term;
+        const term = this.props.homeSearch.term;
         // make the get request by attaching the term to the string
-        let response = await this.props.submitSearch(term);
+        const response = await this.props.submitSearch(term);
         
-        let status = response.status;
+        const status = response.status;
 
         // get the response json object
-        let resJson = response.data;
+        const resJson = response.data;
 
         // if the status is greater than 201 then it means the server returned an error
         if (status > 201) {
-            let errorMessage = resJson.message;
+            const errorMessage = resJson.message;
             // display the message that product not found
             this.props.noProductFound();
         } else {
             // else we succeeded in getting a positive response
-            let resObject = response.data;
+            const resObject = response.data;
 
-            let resJson = JSON.parse(resObject);
+            const resJson = JSON.parse(resObject);
             
-            let listOfProducts = resJson.products;
+            const listOfProducts = resJson.products;
 
             for (let i = 0; i < listOfProducts.length; ++i) {
-                let product = listOfProducts[i];
-                let basicCardItem = <BasicItemCard key = {i} title = {product.title} productImg = {product.productImgUrls[0]} description = {product.description} price = {product.price}/>
+                const product = listOfProducts[i];
+
+                // a procedure which takes in no parameters as onPress event handler functions do not take any parameters
+                // then this function binds i from the scope that it gets defined in which is searchBarOnEndEditing functions scope!
+                // THIS IS LEXICAL SCOPING and therefore basicCardItemIndex is the i in the for loop that gets passed inside another scope
+                // REMEMBER onAddToCart item is binded to the scope of the HomeContainer, now this procedure gets passed to the scope of another component to be invoked on press.
+                // now this basicCardItemIndex can be used to access the this.basicCardItems's index defined in HomeContainer's scope.
+                const onAddToCartButtonBinder = () => {
+                    const basicCardItemIndex = i;
+                    this.onAddToCart(basicCardItemIndex);
+                }
+
+                const basicCardItem = <BasicItemCard key = {i} onAddToCart = {onAddToCartButtonBinder} title = {product.title} productImg = {product.productImgUrls[0]} description = {product.description} price = {product.price}/>
                 this.basicCardItems.push(basicCardItem);
             }
 
