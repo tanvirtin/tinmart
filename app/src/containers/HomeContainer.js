@@ -53,6 +53,9 @@ class HomeContainer extends Component {
 
         // keep a list of basic card items
         this.basicCardItems = [];
+
+        // keep a list of products found
+        this.listOfProducts = [];
     }
 
     /**
@@ -106,8 +109,13 @@ class HomeContainer extends Component {
      * @param itemIndex the index which with which the this.basicCardItems array gets accessed
      */
     onAddToCart(itemIndex) {
-        const basicCardItem = this.basicCardItems[itemIndex];
-        alert(JSON.stringify(basicCardItem));
+        // remember the index for the basicCardItems array is THE SAME AS THE index in the lsit of products returned by the server
+        // as the list of products are essentially getting mapped into the basicCardItems array and this.listOfProducts can be accessed
+        // from this function as onAddToCart is binded to the HomeContainer scope
+        const product = this.listOfProducts[itemIndex];
+
+        // now this product needs to be added to the redux store to build cards for the cart items view container component instead of passing props down
+        
     }
 
     /**
@@ -115,7 +123,7 @@ class HomeContainer extends Component {
      * cart icon you go to page filled with items
      */
     onCartPress() {
-        alert('Pressed cart!')
+        alert('Pressed cart!');
     }
 
     /**
@@ -146,10 +154,10 @@ class HomeContainer extends Component {
 
             const resJson = JSON.parse(resObject);
             
-            const listOfProducts = resJson.products;
+            this.listOfProducts = resJson.products;
 
-            for (let i = 0; i < listOfProducts.length; ++i) {
-                const product = listOfProducts[i];
+            for (let i = 0; i < this.listOfProducts.length; ++i) {
+                const product = this.listOfProducts[i];
 
                 // a procedure which takes in no parameters as onPress event handler functions do not take any parameters
                 // then this function binds i from the scope that it gets defined in which is searchBarOnEndEditing functions scope!
