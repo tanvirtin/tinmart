@@ -48,6 +48,8 @@ class Search(APIView):
 
         res_object = esc.search('products', term)
 
+        #res_object = esc.search_with_boost('products', term, 'title', 2)
+
         # the documents returned by elastic search is very nested
         # rest_object['hits'] returns an object which contains an attribute called hits
         # this hits attribute is an array containing objects which will have an attribute called _source

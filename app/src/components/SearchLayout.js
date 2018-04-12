@@ -31,12 +31,17 @@ export const SearchLayout = props => {
         <Container style = {styles.container}>
             <Content>
                 <Header searchBar rounded style = {styles.header} androidStatusBarColor = {appInfo.themeColor}>
-                    <Left>
+                    <Left style = {styles.menu}>
                         <Button transparent onPress = {props.onMenuPress}>
                             <Icon name = 'menu'/>
                         </Button>
                     </Left>
                     <SearchBar onChangeText = {props.searchBarOnChangeText} onEndEditing = {props.searchBarOnEndEditing} style = {styles.searchBar}/>
+                    <Right style = {styles.cart}>
+                        <Button transparent onPress = {props.onCartPress}>
+                            <Icon name = 'md-cart'/>
+                        </Button>
+                    </Right>
                 </Header>
                 {props.children}
             </Content>
@@ -53,9 +58,14 @@ const styles = {
     header: {
         backgroundColor: appInfo.themeColor
     },
+    menu: {
+        flex: 0.8
+    },
     // flex with the value 4 is very important in order to space the elements close to each other
     searchBar: {
-        flex: 4,
-        marginRight: '6%'
+        flex: 5
+    },
+    cart: {
+        flex: 0.9
     }
 };

@@ -1,4 +1,4 @@
-from mongoengine import Document, IntField, StringField, ListField, DictField
+from mongoengine import Document, IntField, StringField, ListField, DictField, FloatField
 
 # model responsible for interacting with crawler_documents collection in walmartcrawler databse in mongodb
 class CrawlerDocument(Document):
@@ -8,7 +8,8 @@ class CrawlerDocument(Document):
     description = StringField()
     features = ListField()
     category = StringField()
-    price = StringField()
+    subCategories = ListField()
+    price = FloatField()
     date = StringField()
     text = StringField()
     metadata = DictField()

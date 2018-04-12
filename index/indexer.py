@@ -23,6 +23,7 @@ class IndexController(object):
             'description': crawler_document.description,
             'features': crawler_document.features,
             'category': crawler_document.category,
+            'subCategory': crawler_document.subCategory,
             'price': crawler_document.price,
             'text': crawler_document.text,
             'tags': crawler_document.tags
@@ -45,7 +46,6 @@ class IndexController(object):
             # create the thread passing in the method which indexes lucene
             thread = Thread(target = self.__add_document, args = (crawler_document, ))
             thread.start()
-        
 
     '''
         Deletes an index from the database
