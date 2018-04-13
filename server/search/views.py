@@ -32,8 +32,6 @@ sys.path.append('..')
 # import the elastic search client object with which products are looked up
 from index.elasticsearchcli import ElasticSearchCli
 
-
-# This is just a test logic
 # This decorator added here gives this view the ability to access requests from clients without an authentication token, as
 # the user doesn't need to authenticate themselves when they are registering to the service.
 @permission_classes((AllowAny, ))

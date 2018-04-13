@@ -20,11 +20,13 @@ from .error import Error
 from .serializers import ErrorSerializer, CrawlerDocumentSerializer
 
 # import the mongodb database model
-from .models import CrawlerDocument
+from .models import CrawlerDocument, Transaction
 
 # import the json object which will convert a dictionary to a json object
 import json
 
+# unique id generator
+import uuid
 
 # This decorator added here gives this view the ability to access requests from clients without an authenticateion token, as
 # the user doesn't need to authenticate themselves when they are registering to the service.
@@ -55,13 +57,50 @@ class Product(APIView):
 
         return Response(serialized_data, status = status.HTTP_200_OK)
 
-# This decorator added here gives this view the ability to access requests from clients without an authenticateion token, as
+
+# This decorater added here gives this view the ability to access requests from clients with an authentication header token
+# as the user doesn't need to authenticate themselves when they are registering to the service.
+@permission_classes((AllowAny, ))
+class Suggest(APIView):
+    # this class is responsible for suggesting similar products
+    pass
+
+
+
+# This decorator added here gives this view the ability to access requests from clients without an authentication token, as
 # the user doesn't need to authenticate themselves when they are registering to the service.
 @permission_classes((AllowAny, ))
 class Purchase(APIView):
     # this class is responsible for all the transactions
 
-    def post(self, request):
+    # filters an array of duplicate values
+    def filter_duplicates(self, lis):
+        newList = []        
+
+        for element in lis:
+            if not element in newList:
+                newList.append(element)
+
+        return newList
+
+    def put(self, request):
+        # JSON data sent from the server aliased by a variable
+        data_received = request.data
+        
+        # get the list of products purchased from the json object
+        products = data_received['products']
+
+        # filter the products by removing duplicate values
+        products = self.filter_duplicates(products)
+
+        # generate the unique transaction id
+        transaction_id_uuid = uuid.uuid4()
+        transaction_id = str(transaction_id_uuid)
+
+        # save the transaction and return the status http ok
+        transaction = Transaction(transactionId = transaction_id, products = products)
+        transaction.save()
+
         return Response(status = status.HTTP_200_OK)
 
 

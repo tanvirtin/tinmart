@@ -16,7 +16,14 @@ export const put = (route, putData, {loadingOn, loadingOff, action, errorAction}
 
         let completeRoute = 'http://' + ip + ':' + port + '/' + route;
 
-        return Axios.put(completeRoute, putData)
+        return Axios.put(completeRoute, putData, {
+            headers: {
+                   // All requests will have a authorization header attached to it with the value being the jwt token that the
+                   // server sent us. This value is from the store and if there is no token saved in the client side in the
+                   // Redux store's loginStatus attribute it will be an empty string.
+                   Authorization: getState().loginStatus.authToken
+            }
+        })
         .then(response => {
             // check if loadinOff is not undefined
             if (loadingOff) {
@@ -33,14 +40,14 @@ export const put = (route, putData, {loadingOn, loadingOff, action, errorAction}
         })
         // error occurs usually when status.code is greater than 200, or when server returns a negative code
         .catch(error => {
+            // check if error action is defined
+            if (errorAction) {
+                dispatch(errorAction(response));
+            }
             // check if loadingOff is not undefined
             if (loadingOff) {
                 // upon error in retrieving a response from the server the action to not render spinner anymore is dispatched
                 dispatch(loadingOff());
-            }
-
-            if (errorAction) {
-                dispatch(errorAction(response));
             }
 
             // also the axios error object is returned so that when this put action is dispatched, a promise will be returned and the
@@ -64,7 +71,14 @@ export const get = (route, {loadingOn, loadingOff, action, errorAction}) => {
         let completeRoute = 'http://' + ip + ':' + port + '/' + route;
 
         // return the promise
-        return Axios.get(completeRoute)
+        return Axios.get(completeRoute, {
+            headers: {
+                   // All requests will have a authorization header attached to it with the value being the jwt token that the
+                   // server sent us. This value is from the store and if there is no token saved in the client side in the
+                   // Redux store's loginStatus attribute it will be an empty string.
+                   Authorization: getState().loginStatus.authToken
+            }
+        })
         .then(response => {
             // check if loadingOff is not undefined
             if (loadingOff) {
@@ -83,16 +97,16 @@ export const get = (route, {loadingOn, loadingOff, action, errorAction}) => {
         })
         // error object will get passed when the server response is greater than 201
         .catch(error => {
+            // check if error action is defined
+            if (errorAction) {
+                dispatch(errorAction(response));
+            }
+            
             // check if loadingOff is not undefined
             if (loadingOff) {
                 // turn spinner off even if the ajax request completes with an error
                 dispatch(loadingOff());
             }
-
-            if (errorAction) {
-                dispatch(errorAction(response));
-            }
-
             // response object is returned which is an attribute of the error object
             // remember when a .then() procedure returns something you get another promise back
             return error.response;
@@ -110,14 +124,21 @@ export const post = (route, postData, {loadingOn, loadingOff, action, errorActio
 
         let completeRoute = 'http://' + ip + ':' + port + '/' + route;
 
-        return Axios.post(completeRoute, postData)
+        return Axios.post(completeRoute, postData, {
+            headers: {
+                   // All requests will have a authorization header attached to it with the value being the jwt token that the
+                   // server sent us. This value is from the store and if there is no token saved in the client side in the
+                   // Redux store's loginStatus attribute it will be an empty string.
+                   Authorization: getState().loginStatus.authToken
+            }
+        })
         .then(response => {
             // check if loadingOff is not undefined
             if (loadingOff) {
                 // turn spinner off as the ajax request completes successfully
                 dispatch(loadingOff());
             }
-            
+
             // check to see if an action attribute exists in the object provided
             if (action) {
                 dispatch(action(response));
@@ -128,14 +149,15 @@ export const post = (route, postData, {loadingOn, loadingOff, action, errorActio
             return response;
         })
         .catch(error => {
+            // check if errorAction is defined
+            if (errorAction) {
+                dispatch(errorAction(response));
+            }
+
             // check if loadingOff is not undefined
             if (loadingOff) {
                 // turn spinner off even if the ajax request completes with an error
                 dispatch(loadingOff());
-            }
-
-            if (errorAction) {
-                dispatch(errorAction(response));
             }
 
             // response object is returned which is an attribute of the error object which is a parameter

@@ -514,7 +514,7 @@ class RegisterContainer extends Component {
                     onSubmit = {this.onSubmit}
                     formChecks = {this.formChecks}
                 />
-                <SubmitButton isLoading = {registerUI.loading} onSubmit = {() => this.onSubmit(registerForm)}/>
+                <SubmitButton name = {'Submit'} isLoading = {registerUI.loading} onSubmit = {() => this.onSubmit(registerForm)}/>
             </KeyboardAwareLayout>
         );
     }

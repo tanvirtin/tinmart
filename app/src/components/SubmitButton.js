@@ -20,7 +20,7 @@ export const SubmitButton = props => {
             style = {styles.button}
             onPress = {props.onSubmit}
         >
-            <Text style = {styles.buttonText}> Submit </Text>
+            <Text style = {styles.buttonText}> {props.name} </Text>
         </Button>
     );
 }

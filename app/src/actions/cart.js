@@ -12,7 +12,7 @@ import {
 // import the get action creator from the ajaxRequests file
 import { 
     get,
-    post
+    put
  } from './ajaxRequests';
 
 // action creator that invokes the reducer to turn loading spinner on
@@ -44,8 +44,13 @@ export const hideCards = () => ({
 
 // this action takes in another action as a parameter
 // the action here is another action which fires the cartUI reducer to hide the button and card display
-export const checkout = (products, action) => post('products/purchase', products, {
+export const checkout = (products, action) => put('products/purchase', products, {
     loadingOn,
     loadingOff,
     action
 }) 
+
+// empty out the cart
+export const emptyCart = () => ({
+    type: EMPTY_CART_ITEMS
+});

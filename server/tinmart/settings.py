@@ -1,9 +1,11 @@
 import os
 
-from mongoengine import connect
+from mongoengine import register_connection
 
-# connect to the database when the server starts
-connect('walmartcrawler')
+# register connection to the databases when the server starts
+register_connection('walmartcrawler', 'walmartcrawler')
+register_connection('tinmart', 'tinmart')
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

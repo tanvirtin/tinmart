@@ -17,3 +17,4 @@ class CrawlerDocument(Document):
     tags = ListField()
     productImgUrls = ListField()
     allImgUrls = ListField()
+    meta = {'db_alias': 'walmartcrawler'}

@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 
 import { DefaultLayout } from '../components/DefaultLayout';
 
-import { ActivitySpinner } from '../components/ActivitySpinner';
-
 import { CartCard } from '../components/CartCard';
+
+import { SubmitButton } from '../components/SubmitButton';
 
 import { connect } from 'react-redux';
 
@@ -31,6 +31,7 @@ class CartContainer extends Component {
         this.cartCards = []
     }
 
+    // REFACTOR
     async componentDidMount() {
         // attach the back event handler
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
@@ -41,32 +42,36 @@ class CartContainer extends Component {
         // I am making the server requests in componentDidMount because I want to show the loading process in retrieving the requests
         // even though it could have been done in componentWillMount, its not too big of a deal
         productIds = this.props.cartItems.products;
-        for (let i = 0; i < productIds.length; i++) {
-            const productId = productIds[i];
-            const response = await this.props.getProduct(productId);
-            
-            const status = response.status;
-            // if status is greater than 201 means there was an error
-            if (status > 201) {
-                break;
-            } else {
-                const product = response.data;
 
-                const cartCard = <CartCard key = {i} img = {product.productImgUrls[0]} title = {product.title} price = {product.price}/>
+        try {
+            for (let i = 0; i < productIds.length; i++) {
+                const productId = productIds[i];
+                const response = await this.props.getProduct(productId);
                 
-                // add the component created to the cartCards array
-                cartCardsAccumulator.push(cartCard);
-            }
-        }
-        this.cartCards = cartCardsAccumulator;
+                const status = response.status;
+                // if status is greater than 201 means there was an error
+                if (status > 201) {
+                    break;
+                } else {
+                    const product = response.data;
 
-        this.props.showCards();
+                    const cartCard = <CartCard key = {i} img = {product.productImgUrls[0]} title = {product.title} price = {product.price}/>
+                    
+                    // add the component created to the cartCards array
+                    cartCardsAccumulator.push(cartCard);
+                }
+            }
+            this.cartCards = cartCardsAccumulator;
+
+            this.props.showCards();
+        } catch (err) {
+            // REFACTOR
+            // SHOW ERROR MESSAGE
+        }
+
     }
 
     componentWillMount() {
-        // on component will mount fire the action that prevents checkout buttons and cards from being displayed
-        this.props.hideCards();
-
         // remove the back event handler
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
@@ -82,21 +87,37 @@ class CartContainer extends Component {
         this.props.navigation.navigate('DrawerOpen');
     }
 
+    // REFACTOR later
     async checkout() {
-        const products = this.props.cardItems;
-        this.props.checkout(products, this.props.hideCards);
+        const products = this.props.cartItems;
+        const response = await this.props.checkout(products, this.props.emptyCart);
+        if (response.status < 202) {
+            this.props.hideCards();
+        }
     }
 
     render() {
         let loading = this.props.cartUI.loading;
-        let cartItemFound = this.props.cartUI.showCards;
+        let cartItemFound = false;
+        let cartItemsInitial = false;
+
+        // if no cards then don't display button
+        if (this.cartCards.length !== 0) {
+            cartItemsInitial = true;
+        }
+
+        // if no cart items then don't display button or cards
+        if (this.props.cartItems.products.length !== 0) {
+            cartItemFound = true;
+        }
+        
+
         return (
             <DefaultLayout
                 onMenuPress = {this.onMenuPress}
             >
-            {loading && <ActivitySpinner/>}
             {cartItemFound && this.cartCards}
-            {cartItemFound && <Button onPress = {this.checkout} title = {"Checkout"} color = {appInfo.themeColor}/>}
+            {cartItemFound && cartItemsInitial && <SubmitButton name = {'Checkout'} isLoading = {loading} onSubmit = {this.checkout}/>}
             </DefaultLayout>
         );
     }
@@ -116,7 +137,8 @@ const mapDispatchToProps = dispatch => ({
     getProduct: (productId) => dispatch(actions.getProduct(productId)),
     showCards: () => dispatch(actions.showCards()),
     hideCards: () => dispatch(actions.hideCards()),
-    checkout: (products, action) => dispatch(actions.checkout(products, action))
+    checkout: (products, action) => dispatch(actions.checkout(products, action)),
+    emptyCart: () => dispatch(actions.emptyCart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartContainer);

@@ -196,7 +196,7 @@ class LoginContainer extends Component {
                     onChangeTexts = {onChangeTexts}
                     style = {styleProps}
                 />
-                <SubmitButton isLoading = {loginUI.loading} onSubmit = {() => this.onSubmit(loginForm)}/>
+                <SubmitButton name = {'Submit'} isLoading = {loginUI.loading} onSubmit = {() => this.onSubmit(loginForm)}/>
                 <RedirectRegister onRegister = {this.onRegister}/>
             </NoHeaderLayout>
         );

@@ -132,46 +132,51 @@ class HomeContainer extends Component {
         this.basicCardItems = [];
         // the term in the input box is the query with which the get request to the server is send
         const term = this.props.homeSearch.term;
-        // make the get request by attaching the term to the string
-        const response = await this.props.submitSearch(term);
-        
-        const status = response.status;
 
-        // get the response json object
-        const resJson = response.data;
-
-        // if the status is greater than 201 then it means the server returned an error
-        if (status > 201) {
-            const errorMessage = resJson.message;
-            // display the message that product not found
-            this.props.noProductFound();
-        } else {
-            // else we succeeded in getting a positive response
-            const resObject = response.data;
-
-            const resJson = JSON.parse(resObject);
+        try {
+            // make the get request by attaching the term to the string
+            const response = await this.props.submitSearch(term);
             
-            this.listOfProducts = resJson.products;
+            const status = response.status;
 
-            for (let i = 0; i < this.listOfProducts.length; ++i) {
-                const product = this.listOfProducts[i];
+            // get the response json object
+            const resJson = response.data;
 
-                // a procedure which takes in no parameters as onPress event handler functions do not take any parameters
-                // then this function binds i from the scope that it gets defined in which is searchBarOnEndEditing functions scope!
-                // THIS IS LEXICAL SCOPING and therefore basicCardItemIndex is the i in the for loop that gets passed inside another scope
-                // REMEMBER onAddToCart item is binded to the scope of the HomeContainer, now this procedure gets passed to the scope of another component to be invoked on press.
-                // now this basicCardItemIndex can be used to access the this.basicCardItems's index defined in HomeContainer's scope.
-                const onAddToCartButtonBinder = () => {
-                    const basicCardItemIndex = i;
-                    this.onAddToCart(basicCardItemIndex);
+            // if the status is greater than 201 then it means the server returned an error
+            if (status > 201) {
+                const errorMessage = resJson.message;
+                // display the message that product not found
+                this.props.noProductFound();
+            } else {
+                // else we succeeded in getting a positive response
+                const resObject = response.data;
+
+                const resJson = JSON.parse(resObject);
+                
+                this.listOfProducts = resJson.products;
+
+                for (let i = 0; i < this.listOfProducts.length; ++i) {
+                    const product = this.listOfProducts[i];
+
+                    // a procedure which takes in no parameters as onPress event handler functions do not take any parameters
+                    // then this function binds i from the scope that it gets defined in which is searchBarOnEndEditing functions scope!
+                    // THIS IS LEXICAL SCOPING and therefore basicCardItemIndex is the i in the for loop that gets passed inside another scope
+                    // REMEMBER onAddToCart item is binded to the scope of the HomeContainer, now this procedure gets passed to the scope of another component to be invoked on press.
+                    // now this basicCardItemIndex can be used to access the this.basicCardItems's index defined in HomeContainer's scope.
+                    const onAddToCartButtonBinder = () => {
+                        const basicCardItemIndex = i;
+                        this.onAddToCart(basicCardItemIndex);
+                    }
+
+                    const basicCardItem = <BasicItemCard key = {i} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrls[0]} description = {product.description} price = {product.price}/>
+                    this.basicCardItems.push(basicCardItem);
                 }
 
-                const basicCardItem = <BasicItemCard key = {i} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrls[0]} description = {product.description} price = {product.price}/>
-                this.basicCardItems.push(basicCardItem);
+                // display the message that product was found
+                this.props.productFound();
             }
-
-            // display the message that product was found
-            this.props.productFound();
+        } catch (err) {
+            this.props.noProductFound();
         }
     }
 
