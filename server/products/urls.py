@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 # import the views responsible for that routing logic
-from search import views
+from products import views
 
 urlpatterns = [
     # path to get a specific document using a specified product id

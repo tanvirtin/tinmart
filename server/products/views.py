@@ -33,4 +33,24 @@ class Product(APIView):
     # this class is responsible for retrieving a specific product with a specific product id
 
     def get(self, request, product_id):
-        pass
+        products = CrawlerDocument.objects(docId = product_id)
+
+        # if products are not found 404 status is sent back
+        if not products:
+            # create the error object and give it as a response to a failed request
+            error = Error()
+            error.status = 404
+            error.message = 'product not found'
+            serialized_error = ErrorSerializer(error);
+            serialized_data = serialized_error.data
+            return Response(serialized_data, status = status.HTTP_404_NOT_FOUND)
+
+        # the assumption here is that product_ids/docIds are absolutely unique so the list that
+        # gets returned is actually a list with a single element, now accessing the first element in the list should
+        # give us the document back
+        product = products[0]
+
+        serialized_crawler_document = CrawlerDocumentSerializer(product)
+        serialized_data = serialized_crawler_document.data
+
+        return Response(serialized_data, status = status.HTTP_200_OK)

@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 # import the views responsible for that routing logic
-from products import views
+from search import views
 
 urlpatterns = [
     # path to query and get the items with the search term
