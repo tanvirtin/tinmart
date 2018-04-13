@@ -58,8 +58,10 @@ export const STORE_TERM = 'STORE_TERM';
 export const CLEAR_TERM = 'CLEAR_TERM';
 export const NO_PRODUCT_FOUND = 'NO_PRODUCT_FOUND';
 export const PRODUCT_FOUND = 'PRODUCT_FOUND';
-
-// cartItems reducer actions
 export const ADD_CART_ITEM = 'ADD_CART_ITEM';
 export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
 export const EMPTY_CART_ITEMS = 'EMPTY_CART_ITEMS';
+
+// Cart View actions
+export const CART_LOADING_ON = 'CART_LOADING_ON';
+export const CART_LOADING_OFF = 'CART_LOADING_OFF';

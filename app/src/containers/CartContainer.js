@@ -25,17 +25,23 @@ class CartContainer extends Component {
         this.cartCards = []
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // attach the back event handler
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    
+        // I am making the server requests in componentDidMount because I want to show the loading process in retrieving the requests
+        // even though it could have been done in componentWillMount, its not too big of a deal
+        productIds = this.props.cartItems.products;
+        for (let i = 0; i < productIds.length; i++) {
+            const productId = productIds[i];
+            const response = await this.props.getProduct(productId);
+        }
+
     }
 
-    async componentWillMount() {
+    componentWillMount() {
         // remove the back event handler
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-
-        for (int i = 0; i < )
-
     }
 
     onBackPress() {
@@ -50,7 +56,7 @@ class CartContainer extends Component {
     }
 
     render() {
-        let loading = false;
+        let loading = this.props.cartUI.loading;
         return (
             <DefaultLayout
                 onMenuPress = {this.onMenuPress}
@@ -67,11 +73,12 @@ const mapStateToProps = (appState, navigationState) => ({
     screenProps: navigationState.screenProps,
     navigatorStack: appState.navigatorStack,
     // will contain all products in the cartItem
-    cartItems: appState.cartItems
+    cartItems: appState.cartItems,
+    cartUI: appState.cartUI
 })
 
 const mapDispatchToProps = dispatch => ({
-
+    getProduct: (productId) => dispatch(actions.getProduct(productId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartContainer);
