@@ -35,7 +35,12 @@ export const submitSearch = term => get('search/' + term, {
 // action creator takes term through its parameter and creates an object which contains the term and the type of action
 export const storeTerm = term => ({
     type: STORE_TERM,
-    term
+    term,
+    meta: {
+        debounce: {
+            time: 200
+        }
+    }
 });
 
 // action creator creates an action object with type 'CLEAR_TERM'
@@ -57,5 +62,10 @@ export const productFound = () => ({
  */
 export const addCartItem = product => ({
     type: ADD_CART_ITEM,
-    product
+    product,
+    meta: {
+        debounce: {
+            time: 300
+        }
+    }
 });

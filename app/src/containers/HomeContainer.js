@@ -82,7 +82,6 @@ class HomeContainer extends Component {
      */
     onBackPress() {
         this.props.navigation.navigate('DrawerClose');
-
         // when true is returned in the back handler function you don't exit the app
         // when false is returned you exit the app
         return true;
@@ -116,8 +115,6 @@ class HomeContainer extends Component {
 
         // now this product needs to be added to the redux store to build cards for the cart items view container component instead of passing props down
         this.props.addCartItem(product.docId);
-
-
     }
 
     /**

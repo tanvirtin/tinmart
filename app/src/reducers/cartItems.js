@@ -18,11 +18,8 @@ const initialState = {
 export default (state = initialState, action) => {
     switch(action.type) {
         case ADD_CART_ITEM:
-            let newProducts = state.products;
-            const product = action.product;
-            newProducts.push(product);
             // deep copy the old object and create a new one and update the old product array with the new product array
-            return {...state, product: newProducts}
+            return {...state, products: state.products.concat(action.product)}
         
         // when the EMPTY_CART_ITEMS action gets fired the initialState is returned with the empty cart list
         case EMPTY_CART_ITEMS:
