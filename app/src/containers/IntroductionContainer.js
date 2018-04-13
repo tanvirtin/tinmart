@@ -36,7 +36,7 @@ class IntroductionContainer extends Component {
                 // we reset the entire navigator stack with these new routes now, you can be at a specific index
                 // according to these routes by specifying the index attribute
                 NavigationActions.navigate({
-                    routeName: 'ViewsWithDrawer'
+                    routeName: 'Home'
                 })
             ]
         });

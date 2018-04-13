@@ -49,8 +49,6 @@ class HomeContainer extends Component {
         // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
         this.onCartPress = this.onCartPress.bind(this);
 
-        this.toastTime = 2000;
-
         // keep a list of basic card items
         this.basicCardItems = [];
 
@@ -73,7 +71,7 @@ class HomeContainer extends Component {
     componentWillUnmount() {
         // on component will unmount the search term stored in the store as an attribute of the reducer state homeSearch
         // which is an object which is an attribute of the store's state itself gets cleard out
-        props.clearTerm();
+        this.props.clearTerm();
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
@@ -122,7 +120,7 @@ class HomeContainer extends Component {
      * cart icon you go to page filled with items
      */
     onCartPress() {
-        alert('Pressed cart!');
+        this.props.navigation.navigate('Cart');
     }
 
     /**
@@ -200,17 +198,17 @@ class HomeContainer extends Component {
         return (
             <SearchLayout
                 onMenuPress = {this.onMenuPress}
+                onCartPress = {this.onCartPress}
                 title = {'Home'}
                 searchBarOnEndEditing = {this.searchBarOnEndEditing}
                 searchBarOnChangeText = {this.searchBarOnChangeText}
                 showBadge = {displayBadge}
                 numCartItems = {numberOfProductsInCart}
-                onCartPress = {this.onCartPress}
             >
                 {/* This is saying that if homeUI.loading is true then only render this element */}
                 {loading && <ActivitySpinner/>}
                 {/* This is saying that if homeUI.productNotFound is true then only render this element */}
-                {productNotFound && <InvalidSearch message = {"product not found"}/>}
+                {productNotFound && <InvalidSearch message = {'product not found'}/>}
                 {!productNotFound && basicCardItems}
             </SearchLayout>
         );
@@ -239,7 +237,6 @@ class HomeContainer extends Component {
  * @return returns an object which gets passed inside connect, this allows the props object to contain attributes of the attributes object returned by the function
  */
 const mapDispatchToProps = dispatch => ({
-    showToast: message => dispatch(ToastActionsCreators.displayInfo(message, this.toastTime)),
     submitSearch: term => dispatch(actions.submitSearch(term)),
     storeTerm: term => dispatch(actions.storeTerm(term)),
     clearTerm: () => dispatch(actions.clearTerm()),

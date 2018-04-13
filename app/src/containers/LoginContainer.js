@@ -72,7 +72,7 @@ class LoginContainer extends Component {
                 this.props.clearLoginForm();
 
                 // navigate to the home page on successful authentication
-                this.props.navigation.navigate('ViewsWithDrawer');
+                this.props.navigation.navigate('Home');
 
             } else if (response.status === 400) {
                 this.props.authenticationError();

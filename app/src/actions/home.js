@@ -57,7 +57,7 @@ export const productFound = () => ({
 });
 
 /**
- * Adds a product to the reducer's state's product attribute array
+ * Adds a product to the reducer's state's product attribute array, the action is a debounced action meaning the same action won't be invoked until the other action has been resolved
  * @param product the product id string that gets added to the products array saved in the redux store's state attribute which is cartItems 
  */
 export const addCartItem = product => ({
@@ -65,7 +65,7 @@ export const addCartItem = product => ({
     product,
     meta: {
         debounce: {
-            time: 300
+            time: 400
         }
     }
 });

@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { BackHandler } from 'react-native';
+// contains all the actions to fire the reducer for the react-navigations
 import { NavigationActions } from 'react-navigation';
 import Spinner from 'react-native-loading-spinner-overlay';
 
