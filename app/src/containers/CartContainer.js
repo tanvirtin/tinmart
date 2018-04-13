@@ -6,14 +6,19 @@ import { DefaultLayout } from '../components/DefaultLayout';
 
 import { ActivitySpinner } from '../components/ActivitySpinner';
 
+import { CartCard } from '../components/CartCard';
+
 import { connect } from 'react-redux';
 
-import { BackHandler } from 'react-native';
+import { BackHandler, Button } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
 
 // Imports all action functions as an actions object
 import * as actions from '../actions/cart'
+
+// json file that contains basic information about the app such as name and theme color
+const appInfo = require('../../appInfo.json');
 
 class CartContainer extends Component {
 
@@ -28,6 +33,9 @@ class CartContainer extends Component {
     async componentDidMount() {
         // attach the back event handler
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
+        // will accumulate the cartCards
+        let cartCardsAccumulator = [];
     
         // I am making the server requests in componentDidMount because I want to show the loading process in retrieving the requests
         // even though it could have been done in componentWillMount, its not too big of a deal
@@ -35,8 +43,23 @@ class CartContainer extends Component {
         for (let i = 0; i < productIds.length; i++) {
             const productId = productIds[i];
             const response = await this.props.getProduct(productId);
-        }
+            
+            const status = response.status;
+            // if status is greater than 201 means there was an error
+            if (status > 201) {
+                break;
+            } else {
+                const product = response.data;
 
+                const cartCard = <CartCard key = {i} img = {product.productImgUrls[0]} title = {product.title} price = {product.price}/>
+                
+                // add the component created to the cartCards array
+                cartCardsAccumulator.push(cartCard);
+            }
+        }
+        this.cartCards = cartCardsAccumulator;
+
+        this.props.showCards();
     }
 
     componentWillMount() {
@@ -57,11 +80,14 @@ class CartContainer extends Component {
 
     render() {
         let loading = this.props.cartUI.loading;
+        let cartItemFound = this.props.cartUI.showCards;
         return (
             <DefaultLayout
                 onMenuPress = {this.onMenuPress}
             >
             {loading && <ActivitySpinner/>}
+            {cartItemFound && this.cartCards}
+            {cartItemFound && <Button onPress = {() => {}} title = {"Checkout"} color = {appInfo.themeColor}/>}
             </DefaultLayout>
         );
     }
@@ -78,7 +104,8 @@ const mapStateToProps = (appState, navigationState) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getProduct: (productId) => dispatch(actions.getProduct(productId))
+    getProduct: (productId) => dispatch(actions.getProduct(productId)),
+    showCards: () => dispatch(actions.showCards())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartContainer);

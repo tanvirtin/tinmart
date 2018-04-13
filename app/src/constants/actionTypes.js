@@ -65,3 +65,5 @@ export const EMPTY_CART_ITEMS = 'EMPTY_CART_ITEMS';
 // Cart View actions
 export const CART_LOADING_ON = 'CART_LOADING_ON';
 export const CART_LOADING_OFF = 'CART_LOADING_OFF';
+export const SHOW_CART_CARDS = 'SHOW_CART_CARDS';
+export const HIDE_CART_CARDS = 'HIDE_CART_CARDS';

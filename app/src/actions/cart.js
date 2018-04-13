@@ -4,6 +4,7 @@
 import {
     CART_LOADING_ON,
     CART_LOADING_OFF,
+    SHOW_CART_CARDS
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -25,3 +26,8 @@ export const getProduct = productId => get('products/' + productId, {
     loadingOn,
     loadingOff
 });
+
+// show the cards
+export const showCards = () => ({
+    type: SHOW_CART_CARDS
+})
