@@ -54,3 +54,16 @@ class Product(APIView):
         serialized_data = serialized_crawler_document.data
 
         return Response(serialized_data, status = status.HTTP_200_OK)
+
+# This decorator added here gives this view the ability to access requests from clients without an authenticateion token, as
+# the user doesn't need to authenticate themselves when they are registering to the service.
+@permission_classes((AllowAny, ))
+class Purchase(APIView):
+    # this class is responsible for all the transactions
+
+    def post(self, request):
+        return Response(status = status.HTTP_200_OK)
+
+
+
+

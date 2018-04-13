@@ -26,6 +26,7 @@ class CartContainer extends Component {
         super(props);
         this.onMenuPress = this.onMenuPress.bind(this);
         this.onBackPress = this.onBackPress.bind(this);
+        this.checkout = this.checkout.bind(this);
         // will contain the CartCard dumb components
         this.cartCards = []
     }
@@ -63,6 +64,9 @@ class CartContainer extends Component {
     }
 
     componentWillMount() {
+        // on component will mount fire the action that prevents checkout buttons and cards from being displayed
+        this.props.hideCards();
+
         // remove the back event handler
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
@@ -78,6 +82,11 @@ class CartContainer extends Component {
         this.props.navigation.navigate('DrawerOpen');
     }
 
+    async checkout() {
+        const products = this.props.cardItems;
+        this.props.checkout(products, this.props.hideCards);
+    }
+
     render() {
         let loading = this.props.cartUI.loading;
         let cartItemFound = this.props.cartUI.showCards;
@@ -87,7 +96,7 @@ class CartContainer extends Component {
             >
             {loading && <ActivitySpinner/>}
             {cartItemFound && this.cartCards}
-            {cartItemFound && <Button onPress = {() => {}} title = {"Checkout"} color = {appInfo.themeColor}/>}
+            {cartItemFound && <Button onPress = {this.checkout} title = {"Checkout"} color = {appInfo.themeColor}/>}
             </DefaultLayout>
         );
     }
@@ -105,7 +114,9 @@ const mapStateToProps = (appState, navigationState) => ({
 
 const mapDispatchToProps = dispatch => ({
     getProduct: (productId) => dispatch(actions.getProduct(productId)),
-    showCards: () => dispatch(actions.showCards())
+    showCards: () => dispatch(actions.showCards()),
+    hideCards: () => dispatch(actions.hideCards()),
+    checkout: (products, action) => dispatch(actions.checkout(products, action))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartContainer);

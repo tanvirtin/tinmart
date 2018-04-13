@@ -5,7 +5,7 @@ import Axios from 'axios';
                                       // an object is expected which will look exactly like this when passed on to this function:
                                       // {loadingOn: function, loadingOff: function, action: function}, using ES6 destructing property I extract the attributes
                                       // and store them in a parameter variable.
-export const put = (route, putData, {loadingOn, loadingOff, action}) => {
+export const put = (route, putData, {loadingOn, loadingOff, action, errorAction}) => {
     return (dispatch, getState) => {
 
         // check if loadingOn is not undefined
@@ -16,14 +16,7 @@ export const put = (route, putData, {loadingOn, loadingOff, action}) => {
 
         let completeRoute = 'http://' + ip + ':' + port + '/' + route;
 
-        return Axios.put(completeRoute, putData, {
-            headers: {
-                   // All requests will have a authorization header attached to it with the value being the jwt token that the
-                   // server sent us. This value is from the store and if there is no token saved in the client side in the
-                   // Redux store's loginStatus attribute it will be an empty string.
-                   Authorization: getState().loginStatus.authToken
-            }
-        })
+        return Axios.put(completeRoute, putData)
         .then(response => {
             // check if loadinOff is not undefined
             if (loadingOff) {
@@ -45,6 +38,11 @@ export const put = (route, putData, {loadingOn, loadingOff, action}) => {
                 // upon error in retrieving a response from the server the action to not render spinner anymore is dispatched
                 dispatch(loadingOff());
             }
+
+            if (errorAction) {
+                dispatch(errorAction(response));
+            }
+
             // also the axios error object is returned so that when this put action is dispatched, a promise will be returned and the
             // val in the .then((val) => {}) will be the response object
             return error.response; // <-- sends back the response object which will have an attribute called status which will give the code of the error
@@ -54,7 +52,7 @@ export const put = (route, putData, {loadingOn, loadingOff, action}) => {
 
                            // destructing an object passed through the parameter
                            // here loadinOn, loadingOff and action (additional action that you may want to invoke) are all action creators which are functions which gets passed in that returns an action object
-export const get = (route, {loadingOn, loadingOff, action}) => {
+export const get = (route, {loadingOn, loadingOff, action, errorAction}) => {
     // REDUX WILL INVOKE THE FUNCTION THAT IS BEING RETURNED AND THEN RETURN WHATEVER THIS FUNCTION RETURNS
     return (dispatch, getState) => {
         // check if loadinOn is not undefined
@@ -91,6 +89,10 @@ export const get = (route, {loadingOn, loadingOff, action}) => {
                 dispatch(loadingOff());
             }
 
+            if (errorAction) {
+                dispatch(errorAction(response));
+            }
+
             // response object is returned which is an attribute of the error object
             // remember when a .then() procedure returns something you get another promise back
             return error.response;
@@ -98,7 +100,7 @@ export const get = (route, {loadingOn, loadingOff, action}) => {
     }
 }
                                       // destructing an object passed through the parameter
-export const post = (route, postData, {loadingOn, loadingOff, action}) => {
+export const post = (route, postData, {loadingOn, loadingOff, action, errorAction}) => {
     return (dispatch, getState) => {
         // check if loadingOn is not undefined
         if (loadingOn) {
@@ -108,21 +110,14 @@ export const post = (route, postData, {loadingOn, loadingOff, action}) => {
 
         let completeRoute = 'http://' + ip + ':' + port + '/' + route;
 
-        return Axios.post(completeRoute, postData, {
-            headers: {
-                   // All requests will have a authorization header attached to it with the value being the jwt token that the
-                   // server sent us. This value is from the store and if there is no token saved in the client side in the
-                   // Redux store's loginStatus attribute it will be an empty string.
-                   Authorization: getState().loginStatus.authToken
-            }
-        })
+        return Axios.post(completeRoute, postData)
         .then(response => {
             // check if loadingOff is not undefined
             if (loadingOff) {
                 // turn spinner off as the ajax request completes successfully
                 dispatch(loadingOff());
             }
-
+            
             // check to see if an action attribute exists in the object provided
             if (action) {
                 dispatch(action(response));
@@ -137,6 +132,10 @@ export const post = (route, postData, {loadingOn, loadingOff, action}) => {
             if (loadingOff) {
                 // turn spinner off even if the ajax request completes with an error
                 dispatch(loadingOff());
+            }
+
+            if (errorAction) {
+                dispatch(errorAction(response));
             }
 
             // response object is returned which is an attribute of the error object which is a parameter
