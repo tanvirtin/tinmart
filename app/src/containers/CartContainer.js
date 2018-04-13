@@ -21,6 +21,8 @@ class CartContainer extends Component {
         super(props);
         this.onMenuPress = this.onMenuPress.bind(this);
         this.onBackPress = this.onBackPress.bind(this);
+        // will contain the CartCard dumb components
+        this.cartCards = []
     }
 
     componentDidMount() {
@@ -28,9 +30,12 @@ class CartContainer extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         // remove the back event handler
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+
+        for (int i = 0; i < )
+
     }
 
     onBackPress() {

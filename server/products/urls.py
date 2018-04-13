@@ -3,11 +3,11 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 # import the views responsible for that routing logic
-from products import views
+from search import views
 
 urlpatterns = [
-    # path to query and get the items with the search term
-    path('<str:term>', views.Search.as_view())
+    # path to get a specific document using a specified product id
+    path('<str:product_id>', views.Product.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

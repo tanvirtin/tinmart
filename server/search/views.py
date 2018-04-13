@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # all the views will inherit APIView
 from rest_framework.views import APIView
 
