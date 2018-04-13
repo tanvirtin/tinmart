@@ -115,7 +115,9 @@ class HomeContainer extends Component {
         const product = this.listOfProducts[itemIndex];
 
         // now this product needs to be added to the redux store to build cards for the cart items view container component instead of passing props down
-        
+        this.props.addCartItem(product.docId);
+
+
     }
 
     /**
@@ -245,7 +247,9 @@ const mapDispatchToProps = dispatch => ({
     storeTerm: term => dispatch(actions.storeTerm(term)),
     clearTerm: () => dispatch(actions.clearTerm()),
     noProductFound: () => dispatch(actions.noProductFound()),
-    productFound: () => dispatch(actions.productFound())
+    productFound: () => dispatch(actions.productFound()),
+    // action takes in an argument called product which the json object from the server
+    addCartItem: product => dispatch(actions.addCartItem(product))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

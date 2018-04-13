@@ -7,7 +7,8 @@ import {
     STORE_TERM,
     CLEAR_TERM,
     NO_PRODUCT_FOUND,
-    PRODUCT_FOUND
+    PRODUCT_FOUND,
+    ADD_CART_ITEM
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -48,4 +49,13 @@ export const noProductFound = () => ({
 
 export const productFound = () => ({
     type: PRODUCT_FOUND
+});
+
+/**
+ * Adds a product to the reducer's state's product attribute array
+ * @param product the product id string that gets added to the products array saved in the redux store's state attribute which is cartItems 
+ */
+export const addCartItem = product => ({
+    type: ADD_CART_ITEM,
+    product
 });

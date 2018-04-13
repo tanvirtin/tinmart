@@ -31,7 +31,7 @@ export const BasicItemCard = props => {
                     </Body>
                 </Left>
                 <Right style = {styles.addToCart}>
-                    <Button transparent onPress = {props.onAddToCart}>
+                    <Button light onPress = {props.onAddToCart}>
                         <Icon name = 'add' style = {styles.addToCartIcon}/>
                     </Button>
                 </Right>

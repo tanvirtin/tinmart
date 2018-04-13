@@ -60,7 +60,7 @@ export const SearchLayout = props => {
 // a pure JavaScript object must be assigned to components as props
 const styles = {
     container: {
-        backgroundColor: 'white',
+        backgroundColor: 'white'
     },
     header: {
         backgroundColor: appInfo.themeColor
@@ -77,13 +77,13 @@ const styles = {
     },
     badge: {
         position: 'absolute',
-        height: 28,
-        width: 25,
-        right: '-19%',
-        top: '-10%'
+        height: 24,
+        width: 30,
+        right: '-20%',
+        top: '-11%'
     },
     badgeText: {
-        fontSize: 12,
+        fontSize: 9,
     }
 
 };
