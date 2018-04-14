@@ -17,7 +17,7 @@ from rest_framework.decorators import permission_classes
 from .error import Error
 
 # imports the serializer class to transform model data to JSON
-from .serializers import ErrorSerializer, CrawlerDocumentSerializer
+from .serializers import ErrorSerializer, CrawlerDocumentSerializer, TransactionSerializer
 
 # import the mongodb database model
 from .models import CrawlerDocument, Transaction
@@ -27,6 +27,9 @@ import json
 
 # unique id generator
 import uuid
+
+# apriori algorithm imports
+from apyori import apriori
 
 # This decorator added here gives this view the ability to access requests from clients without an authenticateion token, as
 # the user doesn't need to authenticate themselves when they are registering to the service.
@@ -63,7 +66,36 @@ class Product(APIView):
 @permission_classes((AllowAny, ))
 class Suggest(APIView):
     # this class is responsible for suggesting similar products
-    pass
+    
+    def get(self, request, product_id):
+        transaction_objects = Transaction.objects.all()
+
+        transactions = []
+
+        for transaction_object in transaction_objects:
+            serialized_transaction = TransactionSerializer(transaction_object)
+
+            transaction_object_data = serialized_transaction.data
+
+            transaction = transaction_object_data['products']
+
+            # append the transactions inside the list of transactions
+            transactions.append(transaction)
+
+        
+        results = list(apriori(transactions))
+
+        print('Number of results: {}'.format(len(results)))
+        for result in results:
+            result.ordered_statistics
+
+            print('Result: {}'.format(result))
+            print('Items: {}'.format(items).encode("utf-8").decode("ascii"))
+            print('Support: {}'.format(support).encode("utf-8").decode("ascii"))
+
+
+        return Response(status = status.HTTP_200_OK)
+
 
 
 

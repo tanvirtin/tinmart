@@ -55,7 +55,7 @@ class CartContainer extends Component {
                 } else {
                     const product = response.data;
 
-                    const cartCard = <CartCard key = {i} img = {product.productImgUrls[0]} title = {product.title} price = {product.price}/>
+                    const cartCard = <CartCard key = {i} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
                     
                     // add the component created to the cartCards array
                     cartCardsAccumulator.push(cartCard);

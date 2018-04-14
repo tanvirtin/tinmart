@@ -37,9 +37,6 @@ export const BasicItemCard = props => {
                 <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
             </CardItem>
             <CardItem>
-                <Left>
-                    <Text> {props.description} </Text>
-                </Left>
                 <Right>
                     <Text style = {styles.price}> $ {props.price} </Text>
                 </Right>

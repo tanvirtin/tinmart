@@ -12,7 +12,7 @@ logging.basicConfig(level = logging.DEBUG)
 class IndexController(object):
     def __init__(self):
         # when the object is instantiated connect to the walmartcrawler database in mongodb
-        connect('walmartcrawler')
+        connect('fillmyfridge')
         self.index_name = 'tinmart'
         self.elasticsearchcli = ElasticSearchCli(self.index_name)
         
@@ -20,13 +20,8 @@ class IndexController(object):
         return {
             'docId': crawler_document.docId,
             'title': crawler_document.title,
-            'description': crawler_document.description,
-            'features': crawler_document.features,
             'category': crawler_document.category,
-            'subCategories': crawler_document.subCategories,
             'price': crawler_document.price,
-            'text': crawler_document.text,
-            'tags': crawler_document.tags
         }
 
     def __add_document(self, crawler_document):

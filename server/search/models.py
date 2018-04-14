@@ -5,16 +5,10 @@ class CrawlerDocument(Document):
     docId = StringField()
     url = StringField()
     title = StringField()
-    description = StringField()
-    features = ListField()
-    category = StringField()
-    subCategories = ListField()
     price = FloatField()
+    category = StringField()
+    productImgUrl = StringField()
     date = StringField()
-    text = StringField()
     metadata = DictField()
-    links = ListField()
-    tags = ListField()
-    productImgUrls = ListField()
-    allImgUrls = ListField()
-    meta = {'db_alias': 'walmartcrawler'}
+
+    meta = {'db_alias': 'fillmyfridge'}

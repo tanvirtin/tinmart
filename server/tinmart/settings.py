@@ -3,7 +3,7 @@ import os
 from mongoengine import register_connection
 
 # register connection to the databases when the server starts
-register_connection('walmartcrawler', 'walmartcrawler')
+register_connection('fillmyfridge', 'fillmyfridge')
 register_connection('tinmart', 'tinmart')
 
 
