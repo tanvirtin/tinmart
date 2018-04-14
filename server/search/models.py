@@ -1,8 +1,8 @@
-from mongoengine import Document, IntField, StringField, ListField, DictField, FloatField
+from mongoengine import Document, StringField, IntField, DictField, FloatField, ListField
 
-# model responsible for interacting with crawler_documents collection in walmartcrawler databse in mongodb
+# model responsible for interacting with crawler_documents collection in walmartcrawler database in mongodb
 class CrawlerDocument(Document):
-    docId = StringField()
+    docId = IntField()
     url = StringField()
     title = StringField()
     price = FloatField()

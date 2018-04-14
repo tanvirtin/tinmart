@@ -8,9 +8,9 @@ from products import views
 urlpatterns = [
     # path to post a transaction or purchase, this path needs to be first because of the ambigioty of the second path
     path('purchase', views.Purchase.as_view()),
-    path('suggest/<str:product_id>', views.Suggest.as_view()),
+    path('suggest/<int:product_id>', views.Suggest.as_view()),
     # path to get a specific document using a specified product id
-    path('<str:product_id>', views.Product.as_view())
+    path('<int:product_id>', views.Product.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

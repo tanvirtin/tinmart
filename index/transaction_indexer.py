@@ -1,19 +1,18 @@
 import csv
 from models import Transaction
-from mongoengine import connect
+from mongoengine import register_connection
 from threading import Thread, Lock
 from elasticsearchcli import ElasticSearchCli
-import logging
 import random
 import uuid
+import time
 
 class TransactionIndexer(object):
     def __init__(self, file_name):
-        connect('tinmart')
+        register_connection('tinmart', 'tinmart')
         self.esc = ElasticSearchCli('tinmart')
-        self.num_docs_retrieval = 40
+        self.num_docs_retrieval = 15
         self.csvTable = self.read_csv(file_name)
-        self.simulate_transactions()
      
     def __generate_transaction_id(self):
         # generate the unique doc_id
@@ -36,69 +35,98 @@ class TransactionIndexer(object):
 
 
     def simulate_transactions(self):
-        num_transaction_generated = 0
-        # lets do this 40 times!
-        for i in range(self.num_docs_retrieval):
-            for transaction in self.csvTable: 
-                # will contain a simulated transaction
-                simulated_transaction = []
-                for item in transaction:
-                    res_object = self.esc.search('products', item, self.num_docs_retrieval)
-                    
-                    # bunch of checks for undefined objects
+        # create key value pairs so that each item unique item in the csv file represents the same item in the list of products in the database
+        item_representation = {}
 
-                    if not res_object:
-                        continue
+        for transaction in self.csvTable: 
+            # will contain a simulated transaction
+            simulated_transaction = []
+            for item in transaction:
 
-                    list_of_keys = res_object.keys()
+                if item in item_representation:
+                    break
 
-                    if 'hits' not in list_of_keys:
-                        continue
-
-                    hits = res_object['hits']
-                    
-                    list_of_hits_keys = hits.keys()
-
-                    if 'hits' not in list_of_hits_keys:
-                        continue
-
-                    # the documents returned by elastic search is very nested
-                    # rest_object['hits'] returns an object which contains an attribute called hits
-                    # this hits attribute is an array containing objects which will have an attribute called _source
-                    # which is the luecene document that gets indexed
-                    documents = hits['hits']
-
-                    # if array of hits is empty that means elastic search could not find anything with this query
-                    if not documents:
-                        continue
-
-                    # we don't want the length int value to be included in the random pick as indexes start from 0
-                    total_documents = len(documents) - 1
-                    
-                    random_index = random.randint(0, total_documents)
-
-                    document = documents[random_index]
-                    
-                    doc_source = document['_source']
-
-                    # get the doc_id from the document returned by elastic search
-                    doc_id = doc_source['docId']
-
-                    # add the doc_id to the transaction list
-                    simulated_transaction.append(doc_id)
-
-                # create the thread                                     # remember a tuple with a single element in it will need to have a syntax like this (single_element, ) the , needs to be there!
-                archive_thread = Thread(target = self.__archive, args = (simulated_transaction, ))
-                # start the thread
-                archive_thread.start()
-
-                num_transaction_generated += 1
-
-                logging.debug('Generated {} simulated transactions so far: \n'.format(num_transaction_generated))
-
-
-
+                res_object = self.esc.search('products', item, self.num_docs_retrieval)
                 
+                # bunch of checks for undefined objects
+
+                if not res_object:
+                    continue
+
+                list_of_keys = res_object.keys()
+
+                if 'hits' not in list_of_keys:
+                    continue
+
+                hits = res_object['hits']
+                
+                list_of_hits_keys = hits.keys()
+
+                if 'hits' not in list_of_hits_keys:
+                    continue
+
+                # the documents returned by elastic search is very nested
+                # rest_object['hits'] returns an object which contains an attribute called hits
+                # this hits attribute is an array containing objects which will have an attribute called _source
+                # which is the luecene document that gets indexed
+                documents = hits['hits']
+
+                # if array of hits is empty that means elastic search could not find anything with this query
+                if not documents:
+                    continue
+
+                category_count = {}
+
+                print('For item: {}'.format(item))
+                for document in documents:
+                    category = document['_source']['category']
+
+                    if category in category_count:
+                        category_count[category] = category_count[category] + 1
+
+                    else:
+                        category_count[category] = 1
+
+                print(category_count)
+                    
+                time.sleep(3)
+                         
+
+                # we don't want the length int value to be included in the random pick as indexes start from 0
+                total_documents = len(documents) - 1
+                
+                # randomly pick an index
+                random_index = random.randint(0, total_documents)
+
+                document = documents[random_index]
+                
+                doc_source = document['_source']
+
+                # get the doc_id from the document returned by elastic search
+                doc_id = doc_source['docId']
+
+                title = doc_source['title'].encode('utf-8')
+
+
+
+                if item not in item_representation:
+                    item_representation[item] = title
+
+                # add the doc_id to the transaction list
+                simulated_transaction.append(doc_id)
+
+            # # if simulated_transaction is empty then theres no point            
+            # if simulated_transaction:
+            #     # create the thread                                     # remember a tuple with a single element in it will need to have a syntax like this (single_element, ) the , needs to be there!
+            #     archive_thread = Thread(target = self.__archive, args = (simulated_transaction, ))
+            #     # start the thread
+            #     archive_thread.start()
+
+
+        print(item_representation)
+
+
+            
 
 
 

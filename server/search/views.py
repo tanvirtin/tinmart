@@ -36,6 +36,29 @@ from index.elasticsearchcli import ElasticSearchCli
 # the user doesn't need to authenticate themselves when they are registering to the service.
 @permission_classes((AllowAny, ))
 class Search(APIView):
+
+    # the search filter documents gets filterd by category
+    def filter_search_documents(self, documents):
+        category_map = {}
+        for document in documents:
+            doc_source = document['_source']
+            # get the category
+            category = doc_source['category']
+
+            if category not in category_map:
+                category_map[category] = []
+                category_map[category].append(document)
+
+            else:
+                category_map[category].append(document)
+
+        for key in category_map:
+            value = category_map[key]                
+
+            print('Category: {}'.format(key.encode('utf-8')))
+            print('Category count: {}'.format(len(value)))
+
+
     # term is the part of the query string that is tynamic, here term is the query string
     # that will be used to query the lucene indexer to get the results
     def get(self, request, term):

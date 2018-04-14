@@ -3,6 +3,7 @@ from mongoengine import connect
 from threading import Thread, Lock
 from elasticsearchcli import ElasticSearchCli
 import logging
+from mongoengine import register_connection
 
 logging.basicConfig(level = logging.DEBUG)
 
@@ -11,8 +12,8 @@ logging.basicConfig(level = logging.DEBUG)
 '''
 class IndexController(object):
     def __init__(self):
-        # when the object is instantiated connect to the walmartcrawler database in mongodb
-        connect('fillmyfridge')
+        # register connection to the databases when the server starts
+        register_connection('fillmyfridge', 'fillmyfridge')
         self.index_name = 'tinmart'
         self.elasticsearchcli = ElasticSearchCli(self.index_name)
         

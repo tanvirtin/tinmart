@@ -1,8 +1,8 @@
-from mongoengine import Document, StringField, DictField, FloatField, ListField
+from mongoengine import Document, StringField, IntField, DictField, FloatField, ListField
 
 # model responsible for interacting with crawler_documents collection in walmartcrawler database in mongodb
 class CrawlerDocument(Document):
-    docId = StringField()
+    docId = IntField()
     url = StringField()
     title = StringField()
     price = FloatField()
@@ -11,7 +11,11 @@ class CrawlerDocument(Document):
     date = StringField()
     metadata = DictField()
 
+    meta = {'db_alias': 'fillmyfridge'}
+
 # model responsible for interacting with transactions collection in tinmart database in mongodb
 class Transaction(Document):
     transactionId = StringField()
     products = ListField()
+
+    meta = {'db_alias': 'tinmart'}
