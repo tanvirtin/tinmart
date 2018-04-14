@@ -42,7 +42,10 @@ class Search(APIView):
         
         esc = ElasticSearchCli('tinmart')
 
-        res_object = esc.search('products', term)
+        # number of top documents
+        num_hits = 40
+        
+        res_object = esc.search('products', term, num_hits)
 
         #res_object = esc.search_with_boost('products', term, 'title', 2)
 

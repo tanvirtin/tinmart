@@ -81,18 +81,24 @@ class ElasticSearchCli(object):
 
         :param str category: the category that this document will belong to
         :param str query_string: the string with which the index is searched
+        :param int num_int: the number of hits that elastic search returns
         :return: json response from the elasticsearch server converted into a dictionary
         :rtype: dict
         :raises ValueError: if category and query_string is not a string
     '''
-    def search(self, category, query_string):
+    def search(self, category, query_string, num_hits):
         if type(category) != str:
             raise ValueError('category must be a string')
 
         if type(query_string) != str:
             raise ValueError('query_string must be a string')
+        
+        if type(num_hits) != int:
+            raise ValueError('num_hits must be an int')
 
-        url = self.base_url + category + '/' + '_search?q=' + query_string
+        num_hits = str(num_hits)
+
+        url = self.base_url + category + '/' + '_search?' + 'size=' + num_hits + '&q=' + query_string
         request = requests.get(url)
         return request.json()
 

@@ -1,12 +1,17 @@
-from indexer import IndexController
+from crawler_document_indexer import IndexController
+from transaction_indexer import TransactionIndexer
 
 '''
     NOTE - MAKE SURE TO CHECK THAT YOU HAVE ENOUGH SPACE TO INDEX ALL THE DOCUMENTS
 '''
 def main():
-    indexer = IndexController()
-    indexer.delete_index()
-    indexer.index_crawled_documents()
+    # indexer = IndexController()
+    # indexer.delete_index()
+    # indexer.index_crawled_documents()
+
+    transaction_indexer = TransactionIndexer('./data/transactions.csv')
+
+
 
 if __name__ == '__main__':
     main()
