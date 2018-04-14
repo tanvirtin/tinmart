@@ -1,11 +1,15 @@
 import csv
-from models import Transaction
-from mongoengine import register_connection
-from threading import Thread, Lock
-from elasticsearchcli import ElasticSearchCli
 import random
 import uuid
 import time
+import sys
+
+from models import Transaction
+from mongoengine import register_connection
+from threading import Thread, Lock
+from textblob import TextBlob
+from elasticsearchcli import ElasticSearchCli
+
 
 class TransactionIndexer(object):
     def __init__(self, file_name):
@@ -34,6 +38,59 @@ class TransactionIndexer(object):
         transaction.save()
 
 
+    # the search filter documents gets filterd by category
+    def __filter_search_documents_by_category(self, documents):
+        category_score_map = {}
+        category_map = {}
+        for document in documents:
+            doc_source = document['_source']
+            doc_score = document['_score']
+            # get the category
+            category = doc_source['category']
+
+            if category not in category_score_map:
+                category_score_map[category] = doc_score
+                category_map[category] = [doc_source]
+            else:
+                category_score_map[category] += doc_score
+                category_map[category].append(doc_source)
+
+        max_key = ''
+        max_val = -sys.maxsize
+        for key in category_score_map:
+            score = category_score_map[key]
+            if score > max_val:
+                max_key = key
+                max_val = score
+
+        return category_map[max_key]
+
+    def __get_document(self, item, item_representation):
+        res_object = self.esc.search('products', item, self.num_docs_retrieval)
+        
+        # bunch of checks for undefined objects
+        if not res_object:
+            return None
+
+        list_of_keys = res_object.keys()
+
+        if 'hits' not in list_of_keys:
+            return None
+
+        hits = res_object['hits']
+        
+        list_of_hits_keys = hits.keys()
+
+        if 'hits' not in list_of_hits_keys:
+            return None
+        # the documents returned by elastic search is very nested
+        # rest_object['hits'] returns an object which contains an attribute called hits
+        # this hits attribute is an array containing objects which will have an attribute called _source
+        # which is the luecene document that gets indexed
+        documents = hits['hits']
+
+        return documents
+
     def simulate_transactions(self):
         # create key value pairs so that each item unique item in the csv file represents the same item in the list of products in the database
         item_representation = {}
@@ -42,34 +99,11 @@ class TransactionIndexer(object):
             # will contain a simulated transaction
             simulated_transaction = []
             for item in transaction:
-
                 if item in item_representation:
                     break
 
-                res_object = self.esc.search('products', item, self.num_docs_retrieval)
-                
-                # bunch of checks for undefined objects
-
-                if not res_object:
-                    continue
-
-                list_of_keys = res_object.keys()
-
-                if 'hits' not in list_of_keys:
-                    continue
-
-                hits = res_object['hits']
-                
-                list_of_hits_keys = hits.keys()
-
-                if 'hits' not in list_of_hits_keys:
-                    continue
-
-                # the documents returned by elastic search is very nested
-                # rest_object['hits'] returns an object which contains an attribute called hits
-                # this hits attribute is an array containing objects which will have an attribute called _source
-                # which is the luecene document that gets indexed
-                documents = hits['hits']
+                # get the documents
+                documents = self.__get_document(item, item_representation)
 
                 # if array of hits is empty that means elastic search could not find anything with this query
                 if not documents:
@@ -78,19 +112,14 @@ class TransactionIndexer(object):
                 category_count = {}
 
                 print('For item: {}'.format(item))
-                for document in documents:
-                    category = document['_source']['category']
 
-                    if category in category_count:
-                        category_count[category] = category_count[category] + 1
+                product_list_for_category = self.__filter_search_documents_by_category(documents)
 
-                    else:
-                        category_count[category] = 1
+                print([product['title'].encode('utf-8') for product in product_list_for_category])
 
-                print(category_count)
-                    
+                print('')
+
                 time.sleep(3)
-                         
 
                 # we don't want the length int value to be included in the random pick as indexes start from 0
                 total_documents = len(documents) - 1
@@ -106,7 +135,6 @@ class TransactionIndexer(object):
                 doc_id = doc_source['docId']
 
                 title = doc_source['title'].encode('utf-8')
-
 
 
                 if item not in item_representation:
