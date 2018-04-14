@@ -59,6 +59,7 @@ const styles = {
         flex: 1
     },
     price: {
+        marginRight: '60%',
         fontSize: 25
     }
 }

@@ -23,13 +23,13 @@ export const CartCard = props => {
             <CardItem>
                 <Left>
                     <Thumbnail source = {{uri: props.img}}/>
+                    <Text>
+                        {props.title}  
+                    </Text>
                 </Left>
             </CardItem>
             <CardItem>
                 <Body>
-                    <Text>
-                        {props.title}  
-                    </Text>
                     <Text style = {styles.price}>
                         Price: $ {props.price}
                     </Text>
@@ -41,6 +41,6 @@ export const CartCard = props => {
 
 const styles = {
     price: {
-        paddingTop: '7%'
+        fontSize: 20
     }
 }
