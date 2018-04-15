@@ -8,8 +8,10 @@ def main():
     # indexer = IndexController()
     # indexer.delete_index()
     # indexer.index_crawled_documents()
+
     transaction_indexer = TransactionIndexer('./data/transactions.csv')
-    transaction_indexer.simulate_transactions()
+    transactions = transaction_indexer.simulate_transactions()
+
 
 if __name__ == '__main__':
     main()

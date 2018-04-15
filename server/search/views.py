@@ -36,6 +36,33 @@ from index.elasticsearchcli import ElasticSearchCli
 # the user doesn't need to authenticate themselves when they are registering to the service.
 @permission_classes((AllowAny, ))
 class Search(APIView):
+
+    def format_query(self, query):
+        # contains the new query string with which the item gets searched
+        new_query = ''
+
+        # split the query by a space to get all the words in the query
+        sentance = query.split(' ')
+        
+        for word in sentance:
+            for letter in word:
+                if letter == '%':
+                    word = ''
+                    break
+
+            if word != '':
+                new_query += word + ' '
+
+                if word[-1] != 's':
+                    new_query += word + 's '
+                
+                elif word[-1] == 's':
+                    new_query += word[:-1]
+
+        return new_query
+
+
+
     # term is the part of the query string that is tynamic, here term is the query string
     # that will be used to query the lucene indexer to get the results
     def get(self, request, term):
@@ -44,8 +71,10 @@ class Search(APIView):
 
         # number of top documents
         num_hits = 40
+
+        new_term = self.format_query(term)
         
-        res_object = esc.search('products', term, num_hits)
+        res_object = esc.search('products', new_term, num_hits)
 
         #res_object = esc.search_with_boost('products', term, 'title', 2)
 
