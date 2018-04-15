@@ -153,17 +153,14 @@ class Suggest(APIView):
         return recommended_items
 
 
-    def train_apriori(self):
-        print('Training apriori...')
+    def compute_apriori(self):
         # get all transactions
         transactions = Transaction.objects.all()
         apriori_transactions = [[product for product in transaction['products']] for transaction in transactions]
         
-        rules = apriori(apriori_transactions, min_support = 0.003, min_confidence = 0.2, min_lift = 3, min_length = 2)
+        rules = apriori(apriori_transactions, min_support = 0.003, min_confidence = 0.2, min_length = 2)
 
         results = list(rules)
-
-        print('Apriori training complete...')
 
         return results
 
@@ -213,7 +210,7 @@ class Suggest(APIView):
 
         sro = SearchResultOptimizer()
 
-        results = self.train_apriori()
+        results = self.compute_apriori()
 
         result = self.recommend_for_item(product_id, results)
 

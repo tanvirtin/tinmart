@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.tin.crawlers</groupId>
+  <artifactId>fillmyfridge</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>fillmyfridge</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+    
+ <dependencies>
+    <dependency>
+		<groupId>junit</groupId>
+      	<artifactId>junit</artifactId>
+      	<version>3.8.1</version>
+      	<scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>edu.uci.ics</groupId>
+        <artifactId>crawler4j</artifactId>
+        <version>4.3</version>
+    </dependency>
+	<dependency>
+      	<groupId>org.apache.tika</groupId>
+      	<artifactId>tika-parsers</artifactId>
+      	<version>1.4</version>
+	</dependency>
+	<dependency>
+      	<groupId>org.mongodb</groupId>
+      	<artifactId>mongo-java-driver</artifactId>
+      	<version>3.6.1</version>
+	</dependency>
+	<dependency>
+	  	<groupId>org.jgrapht</groupId>
+      	<artifactId>jgrapht-core</artifactId>
+      	<version>1.1.0</version>
+	</dependency>
+	<dependency>
+      	<groupId>org.jsoup</groupId>
+      	<artifactId>jsoup</artifactId>
+      	<version>1.8.3</version>
+	</dependency>
+	<dependency>
+      	<groupId>org.apache</groupId>
+      	<artifactId>tika</artifactId>
+      	<version>0.2</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-core</artifactId>
+		<version>5.3.0</version>
+	</dependency>
+        
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-analyzers-common</artifactId>
+		<version>5.3.0</version>
+	</dependency>
+        
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-queryparser</artifactId>
+		<version>5.3.0</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>com.google.code.gson</groupId>
+    	<artifactId>gson</artifactId>
+    	<version>2.3</version>
+	
+	</dependency>
+		<dependency>
+		<groupId>sda</groupId>
+		<artifactId>sda</artifactId>
+		<version>1.0</version>
+		<scope>system</scope>
+		<systemPath>${basedir}/local-maven-repo/sda-1.0.3.jar</systemPath>
+	</dependency>	
+	
+	<!-- https://mvnrepository.com/artifact/gov.nist.math/jama -->
+	<dependency>
+   		<groupId>gov.nist.math</groupId>
+   	 	<artifactId>jama</artifactId>
+   	 	<version>1.0.3</version>
+	</dependency>
+	
+	<dependency>
+   		<groupId>log4j</groupId>
+    	<artifactId>log4j</artifactId>
+    	<version>1.2.17</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+	<dependency>
+    	<groupId>org.apache.commons</groupId>
+    	<artifactId>commons-collections4</artifactId>
+    	<version>4.0</version>
+	</dependency>
+	
+  </dependencies>
+  
+  
+  
+</project>
