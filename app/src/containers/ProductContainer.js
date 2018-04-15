@@ -107,7 +107,7 @@ class ProductContainer extends Component {
             }
 
 
-            this.productCard = <BasicItemCard onAddToCart = {() => this.onAddToCart(product)} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
+            this.productCard = <BasicItemCard productView onAddToCart = {() => this.onAddToCart(product)} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
         } else {
             return;
         }

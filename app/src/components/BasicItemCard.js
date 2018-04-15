@@ -20,7 +20,6 @@ const appInfo = require('../../appInfo.json');
 
 export const BasicItemCard = props => {
     return (
-        <TouchableOpacity onPress = {props.onPress}>
             <Card>
                 <CardItem>
                     <Left>
@@ -35,16 +34,25 @@ export const BasicItemCard = props => {
                         </Button>
                     </Right>
                 </CardItem>
-                <CardItem cardBody>
-                    <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
-                </CardItem>
+                {props.homeView &&
+                    <TouchableOpacity onPress = {props.onPress}>
+                        <CardItem cardBody>
+                            <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
+                        </CardItem>
+                    </TouchableOpacity>
+                }
+                {/* Product view will have no event handler attached to it */}
+                {props.productView &&
+                    <CardItem cardBody>
+                        <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
+                    </CardItem>
+                }
                 <CardItem>
                     <Right>
                         <Text style = {styles.price}> $ {props.price} </Text>
                     </Right>
                 </CardItem>
             </Card>
-        </TouchableOpacity>
     );
 }
 

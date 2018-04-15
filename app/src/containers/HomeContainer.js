@@ -177,7 +177,7 @@ class HomeContainer extends Component {
                         this.onAddToCart(basicCardItemIndex);
                     }
 
-                    const basicCardItem = <BasicItemCard key = {i} onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
+                    const basicCardItem = <BasicItemCard key = {i} homeView onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
                     this.basicCardItems.push(basicCardItem);
                 }
 
