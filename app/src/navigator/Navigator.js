@@ -63,9 +63,9 @@ const Product = DrawerNavigator({
 }, drawerConfig);
 
 export const Navigator = StackNavigator({
+    Home: {screen: Home},
     Product: {screen: Product},
     Introduction: {screen: IntroductionContainer},
-    Home: {screen: Home},
     Cart: {screen: Cart},
     // The first screen in the program will be the LoginContainer, aliased by the Login attribute
     Login: {screen: LoginContainer},

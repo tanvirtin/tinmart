@@ -49,6 +49,10 @@ class HomeContainer extends Component {
         // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
         this.onCartPress = this.onCartPress.bind(this);
 
+        // the HomeContainer scope 'this' needs to be binded to the function onViewProduct
+        // as this function will get passed to a different scope and it will still access the HomeContainer scope using this keyword
+        this.onViewProduct = this.onViewProduct.bind(this);
+
         // keep a list of basic card items
         this.basicCardItems = [];
 
@@ -124,6 +128,14 @@ class HomeContainer extends Component {
     }
 
     /**
+     * Views the product on click
+     */
+    onViewProduct(product) {
+        this.props.viewProduct(product);
+        this.props.navigation.navigate('Product');
+    }
+
+    /**
      * A function that gets invoked when the enter button is pressed on the keyboard after you finish typing something inside the input box
      */
     async searchBarOnEndEditing() {
@@ -138,9 +150,6 @@ class HomeContainer extends Component {
             const response = await this.props.submitSearch(term);
             
             const status = response.status;
-
-            // get the response json object
-            const resJson = response.data;
 
             // if the status is greater than 201 then it means the server returned an error
             if (status > 201) {
@@ -168,7 +177,7 @@ class HomeContainer extends Component {
                         this.onAddToCart(basicCardItemIndex);
                     }
 
-                    const basicCardItem = <BasicItemCard key = {i} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
+                    const basicCardItem = <BasicItemCard key = {i} onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
                     this.basicCardItems.push(basicCardItem);
                 }
 
@@ -248,7 +257,8 @@ const mapDispatchToProps = dispatch => ({
     noProductFound: () => dispatch(actions.noProductFound()),
     productFound: () => dispatch(actions.productFound()),
     // action takes in an argument called product which the json object from the server
-    addCartItem: product => dispatch(actions.addCartItem(product))
+    addCartItem: product => dispatch(actions.addCartItem(product)),
+    viewProduct: product => dispatch(actions.viewProduct(product))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

@@ -10,7 +10,8 @@ import {
     Body,
     Icon,
     Text,
-    Button
+    Button,
+    Badge
 } from 'native-base';
 
 // json file that contains basic information about the app such as name and theme color
@@ -67,8 +68,8 @@ const styles = {
         position: 'absolute',
         height: 24,
         width: 30,
-        right: '-20%',
-        top: '-11%'
+        right: '-8%',
+        top: '-10%'
     },
     badgeText: {
         fontSize: 9,

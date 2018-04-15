@@ -10,7 +10,12 @@ import { ActivitySpinner } from '../components/ActivitySpinner';
 
 import { connect } from 'react-redux';
 
-import { BackHandler, Button } from 'react-native';
+import { 
+    BackHandler, 
+    Button,
+    ListView,
+    Text
+} from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
 
@@ -26,13 +31,88 @@ class ProductContainer extends Component {
         this.onAddToCart = this.onAddToCart.bind(this);
         this.onCartPress = this.onCartPress.bind(this);
  
-        // keep a list of products found
-        this.listOfProducts = [];
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+        this.product = this.props.productUI.productCurrentlyViewed;
+
+        this.similarProducts = this.ds.cloneWithRows([]);
+
+        this.complementaryProducts = this.ds.cloneWithRows([]);
+
+        this.similar = false;
+        this.comp = false;
     }
 
     async componentDidMount() {
         // attach the back event handler
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
+        // make ajax request to get the product
+        let response = await this.props.getProduct(this.product);
+
+        let status = response.status;
+
+        let product = {};
+        if (status < 201) {
+            product = response.data;
+        } else {
+            return;
+        }
+        
+        response = await this.props.getRecommendations(this.product);        
+        status = response.status;
+
+        if (status < 201) {
+            // get the response json object after parsing
+            responseObject = JSON.parse(response.data);
+            
+            // destruct the object to get the attributes of the object
+           let { similarProducts, complementaryProducts } = responseObject;
+
+            similarProductNames = []
+
+            for (let i = 0; i < similarProducts.length; ++i) {
+                let title = '';
+                if (i !== similarProducts.length - 1) {
+                    title = similarProducts[i].title + ', ';
+                } else {
+                    title = similarProducts[i].title;
+                }
+                similarProductNames.push(title);
+            }
+
+            this.similarProducts = this.ds.cloneWithRows(similarProductNames);
+
+
+            complementaryProductNames = []
+
+            for (let i = 0; i < complementaryProducts.length; ++i) {
+                let title = '';
+                if (i !== complementaryProducts.length - 1) {
+                    title = complementaryProducts[i].title + ', ';
+                } else {
+                    title = complementaryProducts[i].title;
+                }
+                complementaryProductNames.push(title);
+            }
+
+            this.complementaryProducts = this.ds.cloneWithRows(complementaryProductNames);
+
+            if (similarProducts.length !== 0) {
+                this.similar = true;
+            }
+
+            if (complementaryProducts.length !== 0) {
+                this.comp = true;
+            }
+
+
+            this.productCard = <BasicItemCard onAddToCart = {() => this.onAddToCart(product)} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
+        } else {
+            return;
+        }
+
+       this.props.removeProduct();
     }
 
     componentWillMount() {
@@ -54,12 +134,7 @@ class ProductContainer extends Component {
     /**
      * @param itemIndex the index which with which the this.basicCardItems array gets accessed
      */
-    onAddToCart(itemIndex) {
-        // remember the index for the basicCardItems array is THE SAME AS THE index in the lsit of products returned by the server
-        // as the list of products are essentially getting mapped into the basicCardItems array and this.listOfProducts can be accessed
-        // from this function as onAddToCart is binded to the HomeContainer scope
-        const product = this.listOfProducts[itemIndex];
-
+    onAddToCart(product) {
         // now this product needs to be added to the redux store to build cards for the cart items view container component instead of passing props down
         this.props.addCartItem(product.docId);
     }
@@ -84,7 +159,7 @@ class ProductContainer extends Component {
         if (numberOfProductsInCart !== 0) {
             displayBadge = true;
         }
-        
+ 
         return (
             <DefaultLayout
                 onMenuPress = {this.onMenuPress}
@@ -95,11 +170,39 @@ class ProductContainer extends Component {
             >
             {/* This is saying that if homeUI.loading is true then only render this element */}
             {loading && <ActivitySpinner/>}
+            {this.productCard}
+            {this.similar && <Text> Similar Products: </Text>}
+                <ListView style = {styles.similar}
+                    horizontal = {true}
+                    dataSource = {this.similarProducts}
+                    renderRow = {(rowData) => <Text>{rowData}</Text>}
+                    enableEmptySections={true}
+                />
+            {this.comp && <Text> Complementary Products: </Text> }                
+                <ListView style = {styles.complementary}
+                    horizontal = {true}
+                    dataSource = {this.complementaryProducts}
+                    renderRow = {(rowData) => <Text>{rowData}</Text>}
+                    enableEmptySections={true}
+                />
+            
             </DefaultLayout>
         );
     }
 
 }
+
+// Stylesheet.create() must not be used as a plain JavaScript object is not returned and for performance optimization
+// a pure JavaScript object must be assigned to components as props
+const styles = {
+    similar: {
+        paddingTop: '2%',
+        height: 50,
+    },
+    complementary: {
+        height: 50
+    }
+};
 
 const mapStateToProps = (appState, navigationState) => ({
     navigation: navigationState.navigation,
@@ -107,11 +210,15 @@ const mapStateToProps = (appState, navigationState) => ({
     navigatorStack: appState.navigatorStack,
     // will contain all products in the cartItem
     cartItems: appState.cartItems,
-    productUI: appState.productUI
+    productUI: appState.productUI,
 })
 
 const mapDispatchToProps = dispatch => ({
-
+    addCartItem: (product) => dispatch(actions.addCartItem(product)),
+    getProduct: (productId) => dispatch(actions.getProduct(productId)),
+    removeProduct: () => dispatch(actions.removeProduct()),
+    getRecommendations: (productId) => dispatch(actions.getRecommendations(productId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductContainer);
+

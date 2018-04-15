@@ -4,6 +4,8 @@
 import {
     PRODUCT_LOADING_ON,
     PRODUCT_LOADING_OFF,
+    REMOVE_PRODUCT,
+    ADD_CART_ITEM
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -21,3 +23,32 @@ export const loadingOn = () => ({
 export const loadingOff = () => ({
     type: PRODUCT_LOADING_OFF
 });
+
+export const removeProduct = () => ({
+    type: REMOVE_PRODUCT
+});
+
+/**
+ * Adds a product to the reducer's state's product attribute array, the action is a debounced action meaning the same action won't be invoked until the other action has been resolved
+ * @param product the product id string that gets added to the products array saved in the redux store's state attribute which is cartItems 
+ */
+export const addCartItem = product => ({
+    type: ADD_CART_ITEM,
+    product,
+    meta: {
+        debounce: {
+            time: 400
+        }
+    }
+});
+
+export const getProduct = productId => get('products/' + productId, {
+    // same thing as writing {loadingOn: loadingOn, loadingOff: loadingOff}
+    loadingOn,
+    loadingOff
+});
+
+export const getRecommendations = (productId) => get('products/suggest/' + productId, {
+    loadingOn,
+    loadingOff
+})

@@ -61,6 +61,7 @@ export const PRODUCT_FOUND = 'PRODUCT_FOUND';
 export const ADD_CART_ITEM = 'ADD_CART_ITEM';
 export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
 export const EMPTY_CART_ITEMS = 'EMPTY_CART_ITEMS';
+export const VIEW_PRODUCT = 'VIEW_PRODUCT';
 
 // Cart View actions
 export const CART_LOADING_ON = 'CART_LOADING_ON';
@@ -71,3 +72,4 @@ export const HIDE_CART_CARDS = 'HIDE_CART_CARDS';
 // Product View actions
 export const PRODUCT_LOADING_ON = 'PRODUCT_LOADING_ON';
 export const PRODUCT_LOADING_OFF = 'PRODUCT_LOADING_OFF';
+export const REMOVE_PRODUCT = 'HIDE_PRODUCT';

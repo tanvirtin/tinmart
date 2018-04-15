@@ -141,7 +141,9 @@ class Suggest(APIView):
             # if the document is in the frozen set then we found some associations
             if doc_id in frozen_set:
                 elements = list(frozen_set)
-                elements.remove(elements[0])
+
+                # remove the docId from the from the list of recommendeation
+                elements.remove(doc_id)
 
                 recommended_items += elements
 

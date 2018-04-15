@@ -8,7 +8,8 @@ import {
     CLEAR_TERM,
     NO_PRODUCT_FOUND,
     PRODUCT_FOUND,
-    ADD_CART_ITEM
+    ADD_CART_ITEM,
+    VIEW_PRODUCT
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -63,4 +64,9 @@ export const addCartItem = product => ({
             time: 400
         }
     }
+});
+
+export const viewProduct = product => ({
+    type: VIEW_PRODUCT,
+    product
 });

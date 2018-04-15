@@ -1,6 +1,7 @@
 // Dumb component
 
 import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native'
 import { 
     Card, 
     CardItem, 
@@ -19,29 +20,31 @@ const appInfo = require('../../appInfo.json');
 
 export const BasicItemCard = props => {
     return (
-        <Card>
-            <CardItem>
-                <Left>
-                    <Body>
-                        <Text> {props.title} </Text>
-                        <Text note> {props.category} </Text>
-                    </Body>
-                </Left>
-                <Right style = {styles.addToCart}>
-                    <Button light onPress = {props.onAddToCart}>
-                        <Icon name = 'add' style = {styles.addToCartIcon}/>
-                    </Button>
-                </Right>
-            </CardItem>
-            <CardItem cardBody>
-                <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
-            </CardItem>
-            <CardItem>
-                <Right>
-                    <Text style = {styles.price}> $ {props.price} </Text>
-                </Right>
-            </CardItem>
-        </Card>
+        <TouchableOpacity onPress = {props.onPress}>
+            <Card>
+                <CardItem>
+                    <Left>
+                        <Body>
+                            <Text> {props.title} </Text>
+                            <Text note> {props.category} </Text>
+                        </Body>
+                    </Left>
+                    <Right style = {styles.addToCart}>
+                        <Button light onPress = {props.onAddToCart}>
+                            <Icon name = 'add' style = {styles.addToCartIcon}/>
+                        </Button>
+                    </Right>
+                </CardItem>
+                <CardItem cardBody>
+                    <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
+                </CardItem>
+                <CardItem>
+                    <Right>
+                        <Text style = {styles.price}> $ {props.price} </Text>
+                    </Right>
+                </CardItem>
+            </Card>
+        </TouchableOpacity>
     );
 }
 
