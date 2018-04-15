@@ -31,7 +31,18 @@ export const DefaultLayout = props => {
                             {props.title}
                         </Text>
                     </Body>
-                    <Right/>
+                    {/* Only gets rendered if a prop is passed asking it to be rendered */}
+                    {props.showCart && <Right style = {styles.cart}>
+                        <Button transparent onPress = {props.onCartPress}>
+                            <Icon name = 'md-cart'/>
+                        </Button>
+                        {/* Badge gets displayed only if a prop is passed which is expected to be a boolean is true*/}
+                        {props.showBadge &&
+                            <Badge style = {styles.badge}>
+                                <Text style = {styles.badgeText}>{props.numCartItems}</Text>
+                            </Badge>
+                        }
+                    </Right>}
                 </Header>
                 {props.children}
             </Content>
@@ -51,5 +62,15 @@ const styles = {
     title: {
         color: 'white',
         fontSize: 20
+    },
+    badge: {
+        position: 'absolute',
+        height: 24,
+        width: 30,
+        right: '-20%',
+        top: '-11%'
+    },
+    badgeText: {
+        fontSize: 9,
     }
 };

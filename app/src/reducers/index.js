@@ -15,6 +15,7 @@ import homeUI from './homeUI';
 import homeSearch from './homeSearch';
 import cartItems from './cartItems';
 import cartUI from './cartUI';
+import productUI from './productUI';
 
 export default combineReducers({
     navigatorStack,
@@ -27,5 +28,6 @@ export default combineReducers({
     homeUI,
     homeSearch,
     cartItems,
-    cartUI
+    cartUI,
+    productUI
 });

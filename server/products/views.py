@@ -165,8 +165,28 @@ class Suggest(APIView):
 
         return results
 
-    def get(self, request, product_id):
+    def serialize_similar_products(self, product_list_for_category):
+        json_products = []
+        for docs in product_list_for_category:
+            id = docs['docId']
+            product = CrawlerDocument.objects(docId = id)[0]
+            serialized_product = CrawlerDocumentSerializer(product)
+            json_product = serialized_product.data
+            json_products.append(json_product)
 
+        return json_products
+        
+    def serialize_complementary_products(self, complemantary_products):
+        json_products = []
+        for id in complemantary_products:
+            product = CrawlerDocument.objects(docId = id)[0]
+            serialized_product = CrawlerDocumentSerializer(product)
+            json_product = serialized_product.data
+            json_products.append(json_product)
+            
+        return json_products
+    
+    def get(self, request, product_id):
         # check if the product exists
         document = CrawlerDocument.objects(docId = product_id)
 
@@ -210,16 +230,8 @@ class Suggest(APIView):
                 # get the list of filtered products with emphasis on the noun words in the query
                 sro.filter_meaningful_products(doc_title, product_list_for_category)
 
-                # will contain a lsit of all the serliazed products
-                json_products = []
-
-                for docs in product_list_for_category:
-                    id = docs['docId']
-                    product = CrawlerDocument.objects(docId = id)[0]
-
-
                 # populate the similarProducts key with docIds of recommended products
-                suggestion_dict['similarProducts'] = [product['docId'] for product in product_list_for_category]
+                suggestion_dict['similarProducts'] = self.serialize_similar_products(product_list_for_category)
 
                 for product in product_list_for_category:
                     # now for each item find the apriori results
@@ -227,13 +239,13 @@ class Suggest(APIView):
                     result = self.recommend_for_item(product['docId'], results)
                     
                     if result:
-                        suggestion_dict['complementaryProducts'] = result
+                        suggestion_dict['complementaryProducts'] = self.serialize_complementary_products(result)
                         # no need to continue the loop if a result has been found
                         break
 
         # else results are the complementary products        
         else:
-            suggestion_dict['complementaryProducts'] = result
+            suggestion_dict['complementaryProducts'] = self.serialize_complementary_products(result)
 
             # format the query
             query = self.format_query(doc_title)
@@ -247,10 +259,9 @@ class Suggest(APIView):
                 
                 # get the list of filtered products with emphasis on the noun words in the query
                 sro.filter_meaningful_products(doc_title, product_list_for_category)
-
+                    
                 # populate the similarProducts key with docIds of recommended products
-                suggestion_dict['similarProducts'] = [product['docId'] for product in product_list_for_category]
-
+                suggestion_dict['similarProducts'] = self.serialize_similar_products(product_list_for_category)
 
         suggestion_json = json.dumps(suggestion_dict)
 

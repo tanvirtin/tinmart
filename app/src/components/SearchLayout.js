@@ -85,5 +85,4 @@ const styles = {
     badgeText: {
         fontSize: 9,
     }
-
 };

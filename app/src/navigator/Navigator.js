@@ -8,6 +8,7 @@ import RegisterContainer from '../containers/RegisterContainer';
 import DrawerContainer from '../containers/DrawerContainer';
 import CartContainer from '../containers/CartContainer';
 import HomeContainer from '../containers/HomeContainer';
+import ProductContainer from '../containers/ProductContainer';
 
 // transitionConfig object creator from https://medium.com/async-la/custom-transitions-in-react-navigation-2f759408a053
 // for a modal transiting from left to right for every page.
@@ -57,7 +58,12 @@ const Cart = DrawerNavigator({
     Cart: {screen: CartContainer}
 }, drawerConfig);
 
+const Product = DrawerNavigator({
+  Product: {screen: ProductContainer}
+}, drawerConfig);
+
 export const Navigator = StackNavigator({
+    Product: {screen: Product},
     Introduction: {screen: IntroductionContainer},
     Home: {screen: Home},
     Cart: {screen: Cart},
