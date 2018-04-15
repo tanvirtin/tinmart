@@ -181,5 +181,7 @@ class TransactionIndexer(object):
             
 
 
-
+if __name__ == '__main__':
+    transaction_indexer = TransactionIndexer('./data/transactions.csv')
+    transactions = transaction_indexer.simulate_transactions()
 

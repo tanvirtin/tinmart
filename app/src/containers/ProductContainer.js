@@ -171,6 +171,17 @@ class ProductContainer extends Component {
             {/* This is saying that if homeUI.loading is true then only render this element */}
             {loading && <ActivitySpinner/>}
             {this.productCard}
+            
+            
+            {
+                /**
+                 * 
+                 * MAJOR REFACTORING NEEDS TO BE DONE HERE
+                 * 
+                 */
+            }
+            
+            
             {this.similar && <Text> Similar Products: </Text>}
                 <ListView style = {styles.similar}
                     horizontal = {true}
