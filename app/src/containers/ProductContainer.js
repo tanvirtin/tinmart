@@ -48,14 +48,17 @@ class ProductContainer extends Component {
         this.comp = false;
     }
 
-    onCardPress() {
-        alert('yup!')
+    onCardPress(product) {
+        this.props.refresh(product.docId, () => {
+            this.product = product.docId;
+            this.populatePage();
+        });
     }
 
-    async componentDidMount() {
-        // attach the back event handler
-        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-
+    /**
+     * Populates the page with product informations
+     */
+    async populatePage() {
         // make ajax request to get the product
         let response = await this.props.getProduct(this.product);
 
@@ -76,7 +79,7 @@ class ProductContainer extends Component {
             responseObject = JSON.parse(response.data);
             
             // destruct the object to get the attributes of the object
-           let { similarProducts, complementaryProducts } = responseObject;
+            let { similarProducts, complementaryProducts } = responseObject;
 
             similarProductNames = []
 
@@ -84,7 +87,7 @@ class ProductContainer extends Component {
                 
                 const product = similarProducts[i];
 
-                const cartCard = <CartCard clickable onCardPress = {this.onCardPress} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
+                const cartCard = <CartCard clickable onCardPress = {() => this.onCardPress(product)} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
 
                 similarProductNames.push(cartCard);
             }
@@ -98,7 +101,7 @@ class ProductContainer extends Component {
 
                 const product = complementaryProducts[i];
 
-                const cartCard = <CartCard clickable onCardPress = {this.onCardPress} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
+                const cartCard = <CartCard clickable onCardPress = {() => this.onCardPress(product)} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
 
                 complementaryProductNames.push(cartCard);
             }
@@ -118,8 +121,14 @@ class ProductContainer extends Component {
         } else {
             return;
         }
+        this.props.removeProduct();
+    }
 
-       this.props.removeProduct();
+    componentDidMount() {
+        // attach the back event handler
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        
+        this.populatePage();
     }
 
     componentWillMount() {
@@ -203,7 +212,9 @@ const mapDispatchToProps = dispatch => ({
     addCartItem: (product) => dispatch(actions.addCartItem(product)),
     getProduct: (productId) => dispatch(actions.getProduct(productId)),
     removeProduct: () => dispatch(actions.removeProduct()),
-    getRecommendations: (productId) => dispatch(actions.getRecommendations(productId))
+    getRecommendations: (productId) => dispatch(actions.getRecommendations(productId)),
+    // the refresh function will take a callback as its parameter
+    refresh: (productId, callBack) => dispatch(actions.refresh(productId, callBack))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductContainer);

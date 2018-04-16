@@ -5,7 +5,8 @@ import {
     PRODUCT_LOADING_ON,
     PRODUCT_LOADING_OFF,
     REMOVE_PRODUCT,
-    ADD_CART_ITEM
+    ADD_CART_ITEM,
+    VIEW_PRODUCT
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -52,3 +53,18 @@ export const getRecommendations = (productId) => get('products/suggest/' + produ
     loadingOn,
     loadingOff
 })
+
+export const viewProduct = product => ({
+    type: VIEW_PRODUCT,
+    product
+});
+
+// a redux thunk function will call viewProduct action and then execute a callBack after calling viewProduct function
+// the callBack is from the component environment to the thunk to execute
+export const refresh = (productId, callBack) => {
+    return (dispatch, getState) => {
+        const currentState = getState();
+        dispatch(viewProduct(productId));
+        callBack();
+    }
+}
