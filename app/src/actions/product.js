@@ -6,7 +6,8 @@ import {
     PRODUCT_LOADING_OFF,
     REMOVE_PRODUCT,
     ADD_CART_ITEM,
-    VIEW_PRODUCT
+    VIEW_PRODUCT,
+    EMPTY_SCREEN_OUT
 } from '../constants/actionTypes';
 
 // import the get action creator from the ajaxRequests file
@@ -68,3 +69,7 @@ export const refresh = (productId, callBack) => {
         callBack();
     }
 }
+
+export const emptyScreenOut = () => ({
+    type: EMPTY_SCREEN_OUT
+});

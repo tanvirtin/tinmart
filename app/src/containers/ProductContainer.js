@@ -40,15 +40,20 @@ class ProductContainer extends Component {
 
         this.product = this.props.productUI.productCurrentlyViewed;
 
+        this.initializeViewVariables();
+    }
+
+    initializeViewVariables() {
+        this.productCard = undefined;
         this.similarProducts = this.ds.cloneWithRows([]);
-
         this.complementaryProducts = this.ds.cloneWithRows([]);
-
         this.similar = false;
         this.comp = false;
     }
 
     onCardPress(product) {
+        this.initializeViewVariables();
+        this.props.emptyScreenOut();
         this.props.refresh(product.docId, () => {
             this.product = product.docId;
             this.populatePage();
@@ -214,7 +219,8 @@ const mapDispatchToProps = dispatch => ({
     removeProduct: () => dispatch(actions.removeProduct()),
     getRecommendations: (productId) => dispatch(actions.getRecommendations(productId)),
     // the refresh function will take a callback as its parameter
-    refresh: (productId, callBack) => dispatch(actions.refresh(productId, callBack))
+    refresh: (productId, callBack) => dispatch(actions.refresh(productId, callBack)),
+    emptyScreenOut: () => dispatch(actions.emptyScreenOut())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductContainer);

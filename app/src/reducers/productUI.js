@@ -5,6 +5,7 @@ import {
     PRODUCT_LOADING_OFF,
     VIEW_PRODUCT,
     REMOVE_PRODUCT,
+    EMPTY_SCREEN_OUT
 } from '../constants/actionTypes';
 
 // This object will contain all the default states for the PRODUCT view's user interface
@@ -15,6 +16,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
+        
+        case EMPTY_SCREEN_OUT:
+            return {...state, loading: false}
+
         // copy over the original state using deep copy and then change the loading attribute to true
         case PRODUCT_LOADING_ON:
             return {...state, loading: true};
