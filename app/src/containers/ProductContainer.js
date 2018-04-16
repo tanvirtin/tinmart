@@ -8,6 +8,8 @@ import { BasicItemCard } from '../components/BasicItemCard';
 
 import { ActivitySpinner } from '../components/ActivitySpinner';
 
+import { Recommendations } from '../components/Recommendations';
+
 import { connect } from 'react-redux';
 
 import { 
@@ -170,50 +172,18 @@ class ProductContainer extends Component {
             >
             {/* This is saying that if homeUI.loading is true then only render this element */}
             {loading && <ActivitySpinner/>}
-            {this.productCard}
-            
-            
-            {
-                /**
-                 * 
-                 * MAJOR REFACTORING NEEDS TO BE DONE HERE
-                 * 
-                 */
-            }
-            
-            
-            {this.similar && <Text> Similar Products: </Text>}
-                <ListView style = {styles.similar}
-                    horizontal = {true}
-                    dataSource = {this.similarProducts}
-                    renderRow = {(rowData) => <Text>{rowData}</Text>}
-                    enableEmptySections={true}
-                />
-            {this.comp && <Text> Complementary Products: </Text> }                
-                <ListView style = {styles.complementary}
-                    horizontal = {true}
-                    dataSource = {this.complementaryProducts}
-                    renderRow = {(rowData) => <Text>{rowData}</Text>}
-                    enableEmptySections={true}
-                />
-            
+            {this.productCard}     
+            <Recommendations
+                similar = {this.similar}
+                comp = {this.comp}
+                similarProducts = {this.similarProducts}
+                complementaryProducts = {this.complementaryProducts}
+            />
             </DefaultLayout>
         );
     }
 
 }
-
-// Stylesheet.create() must not be used as a plain JavaScript object is not returned and for performance optimization
-// a pure JavaScript object must be assigned to components as props
-const styles = {
-    similar: {
-        paddingTop: '2%',
-        height: 50,
-    },
-    complementary: {
-        height: 50
-    }
-};
 
 const mapStateToProps = (appState, navigationState) => ({
     navigation: navigationState.navigation,

@@ -28,9 +28,6 @@ import json
 # unique id generator
 import uuid
 
-# for sleeping
-import time
-
 # apriori algorithm imports
 from apyori import apriori
 
