@@ -13,18 +13,18 @@ const appInfo = require('../../appInfo.json');
 export const Recommendations = props => {
     return (
         <View>
-            {props.similar && <Text> Similar Products: </Text>}
+            {props.similar && <Text style = {styles.text}> Similar Products: </Text>}
             <ListView style = {styles.similar}
                 horizontal = {true}
                 dataSource = {props.similarProducts}
-                renderRow = {(rowData) => <Text>{rowData}</Text>}
+                renderRow = {(rowData) => <View>{rowData}</View>}
                 enableEmptySections={true}
             />
-            {props.comp && <Text> Complementary Products: </Text> }                
+            {props.comp && <Text style = {styles.text}> Complementary Products: </Text> }                
             <ListView style = {styles.complementary}
                 horizontal = {true}
                 dataSource = {props.complementaryProducts}
-                renderRow = {(rowData) => <Text>{rowData}</Text>}
+                renderRow = {(rowData) => <View>{rowData}</View>}
                 enableEmptySections={true}
             />
         </View>
@@ -34,11 +34,14 @@ export const Recommendations = props => {
 // Stylesheet.create() must not be used as a plain JavaScript object is not returned and for performance optimization
 // a pure JavaScript object must be assigned to components as props
 const styles = {
+    text: {
+        fontSize: 18
+    },
     similar: {
         paddingTop: '2%',
-        height: 50,
+        height: 150,
     },
     complementary: {
-        height: 50
+        height: 150
     }
 };

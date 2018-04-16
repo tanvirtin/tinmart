@@ -10,6 +10,8 @@ import { ActivitySpinner } from '../components/ActivitySpinner';
 
 import { Recommendations } from '../components/Recommendations';
 
+import { CartCard } from '../components/CartCard';
+
 import { connect } from 'react-redux';
 
 import { 
@@ -32,6 +34,7 @@ class ProductContainer extends Component {
         this.onBackPress = this.onBackPress.bind(this);
         this.onAddToCart = this.onAddToCart.bind(this);
         this.onCartPress = this.onCartPress.bind(this);
+        this.onCardPress = this.onCardPress.bind(this);
  
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -43,6 +46,10 @@ class ProductContainer extends Component {
 
         this.similar = false;
         this.comp = false;
+    }
+
+    onCardPress() {
+        alert('yup!')
     }
 
     async componentDidMount() {
@@ -74,13 +81,12 @@ class ProductContainer extends Component {
             similarProductNames = []
 
             for (let i = 0; i < similarProducts.length; ++i) {
-                let title = '';
-                if (i !== similarProducts.length - 1) {
-                    title = similarProducts[i].title + ', ';
-                } else {
-                    title = similarProducts[i].title;
-                }
-                similarProductNames.push(title);
+                
+                const product = similarProducts[i];
+
+                const cartCard = <CartCard clickable onCardPress = {this.onCardPress} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
+
+                similarProductNames.push(cartCard);
             }
 
             this.similarProducts = this.ds.cloneWithRows(similarProductNames);
@@ -89,13 +95,12 @@ class ProductContainer extends Component {
             complementaryProductNames = []
 
             for (let i = 0; i < complementaryProducts.length; ++i) {
-                let title = '';
-                if (i !== complementaryProducts.length - 1) {
-                    title = complementaryProducts[i].title + ', ';
-                } else {
-                    title = complementaryProducts[i].title;
-                }
-                complementaryProductNames.push(title);
+
+                const product = complementaryProducts[i];
+
+                const cartCard = <CartCard clickable onCardPress = {this.onCardPress} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
+
+                complementaryProductNames.push(cartCard);
             }
 
             this.complementaryProducts = this.ds.cloneWithRows(complementaryProductNames);
