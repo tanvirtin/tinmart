@@ -93,7 +93,6 @@ class TransactionIndexer(object):
                 
                 elif word[-1] == 's':
                     new_query += word[:-1]
-
         return new_query
 
     def __get_doc_id(self, product_list_for_category):
