@@ -160,6 +160,7 @@ class HomeContainer extends Component {
                 // else we succeeded in getting a positive response
                 const resObject = response.data;
 
+                // There may be an error here REFACTOR LATER
                 const resJson = JSON.parse(resObject);
                 
                 this.listOfProducts = resJson.products;
