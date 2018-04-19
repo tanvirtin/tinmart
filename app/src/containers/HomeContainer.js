@@ -15,7 +15,6 @@ import { BackHandler } from 'react-native';
 import * as actions from '../actions/home';
 
 class HomeContainer extends Component {
-
     /**
      * Constructor for the smart container HomeComponent
      * @param props The props that gets passed down to this component by its parent component
