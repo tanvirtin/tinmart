@@ -1,2 +1,2 @@
 TODO - Fix the error in the Home page search not working sometimes
-TODO - REMOVE the uncessecary onChangeText action dispatches
+TODO - Create a navigation system for the products you visit so that when you click the back button you go back to the product page you were in previously
