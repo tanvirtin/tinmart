@@ -57,6 +57,9 @@ class HomeContainer extends Component {
 
         // keep a list of products found
         this.listOfProducts = [];
+
+        // the search term itself
+        this.searchTerm = '';
     }
 
     /**
@@ -72,9 +75,6 @@ class HomeContainer extends Component {
      * Detach the hardware back button handler on component did mount when the component is unmounting/
      */
     componentWillUnmount() {
-        // on component will unmount the search term stored in the store as an attribute of the reducer state homeSearch
-        // which is an object which is an attribute of the store's state itself gets cleard out
-        this.props.clearTerm();
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
@@ -100,9 +100,7 @@ class HomeContainer extends Component {
      * @param text the string that gets passed by the input box to this funciton, this string represents the string currently in the input box on change text
      */
     searchBarOnChangeText(text) {
-        // on change text the action to store the term gets invoked
-        this.props.storeTerm(text);
-        this.props.productFound();
+        this.searchTerm = text;
     }
 
     /**
@@ -141,8 +139,8 @@ class HomeContainer extends Component {
         this.props.productFound();
         // empty out the list so that the old card items get removed to make room for the new one
         this.basicCardItems = [];
-        // the term in the input box is the query with which the get request to the server is send
-        const term = this.props.homeSearch.term;
+        // get the search term from the searchTerm attribute
+        const term = this.searchTerm;
 
         try {
             // make the get request by attaching the term to the string
@@ -177,7 +175,7 @@ class HomeContainer extends Component {
                         this.onAddToCart(basicCardItemIndex);
                     }
 
-                    const basicCardItem = <BasicItemCard key = {i} homeView onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>
+                    const basicCardItem = <BasicItemCard key = {i} homeView onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>;
                     this.basicCardItems.push(basicCardItem);
                 }
 
@@ -252,8 +250,6 @@ class HomeContainer extends Component {
  */
 const mapDispatchToProps = dispatch => ({
     submitSearch: term => dispatch(actions.submitSearch(term)),
-    storeTerm: term => dispatch(actions.storeTerm(term)),
-    clearTerm: () => dispatch(actions.clearTerm()),
     noProductFound: () => dispatch(actions.noProductFound()),
     productFound: () => dispatch(actions.productFound()),
     // action takes in an argument called product which the json object from the server

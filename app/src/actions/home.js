@@ -4,8 +4,6 @@
 import {
     HOME_LOADING_ON,
     HOME_LOADING_OFF,
-    STORE_TERM,
-    CLEAR_TERM,
     NO_PRODUCT_FOUND,
     PRODUCT_FOUND,
     ADD_CART_ITEM,
@@ -31,17 +29,6 @@ export const submitSearch = term => get('search/' + term, {
     // same thing as writing {loadingOn: loadingOn, loadingOff: loadingOff}
     loadingOn,
     loadingOff
-});
-
-// action creator takes term through its parameter and creates an object which contains the term and the type of action
-export const storeTerm = term => ({
-    type: STORE_TERM,
-    term
-});
-
-// action creator creates an action object with type 'CLEAR_TERM'
-export const clearTerm = () => ({
-    type: CLEAR_TERM
 });
 
 export const noProductFound = () => ({
