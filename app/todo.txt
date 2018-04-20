@@ -1,2 +1,3 @@
+TODO - Convert all the thunks in ajaxRequests action file to async await
 TODO - Fix the error in the Home page search not working sometimes
 TODO - Create a navigation system for the products you visit so that when you click the back button you go back to the product page you were in previously
