@@ -10,7 +10,10 @@ import { SubmitButton } from '../components/SubmitButton';
 
 import { connect } from 'react-redux';
 
-import { BackHandler, Button } from 'react-native';
+import {
+    BackHandler,
+    Button
+} from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
 
@@ -38,7 +41,7 @@ class CartContainer extends Component {
 
         // will accumulate the cartCards
         let cartCardsAccumulator = [];
-    
+
         // I am making the server requests in componentDidMount because I want to show the loading process in retrieving the requests
         // even though it could have been done in componentWillMount, its not too big of a deal
         productIds = this.props.cartItems.products;
@@ -47,7 +50,7 @@ class CartContainer extends Component {
             for (let i = 0; i < productIds.length; i++) {
                 const productId = productIds[i];
                 const response = await this.props.getProduct(productId);
-                
+
                 const status = response.status;
                 // if status is greater than 201 means there was an error
                 if (status > 201) {
@@ -56,7 +59,7 @@ class CartContainer extends Component {
                     const product = response.data;
 
                     const cartCard = <CartCard key = {i} img = {product.productImgUrl} title = {product.title} price = {product.price}/>
-                    
+
                     // add the component created to the cartCards array
                     cartCardsAccumulator.push(cartCard);
                 }
@@ -110,7 +113,7 @@ class CartContainer extends Component {
         if (this.props.cartItems.products.length !== 0) {
             cartItemFound = true;
         }
-        
+
 
         return (
             <DefaultLayout

@@ -2,16 +2,16 @@
 
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native'
-import { 
-    Card, 
-    CardItem, 
-    Thumbnail, 
-    Text, 
-    Button, 
-    Icon, 
-    Left, 
-    Body, 
-    Right 
+import {
+    Card,
+    CardItem,
+    Thumbnail,
+    Text,
+    Button,
+    Icon,
+    Left,
+    Body,
+    Right
 } from 'native-base';
 import { Image } from 'react-native';
 
@@ -28,13 +28,15 @@ export const BasicItemCard = props => {
                             <Text note> {props.category} </Text>
                         </Body>
                     </Left>
-                    <Right style = {styles.addToCart}>
-                        <Button light onPress = {props.onAddToCart}>
-                            <Icon name = 'add' style = {styles.addToCartIcon}/>
-                        </Button>
-                    </Right>
+                    {!props.hideAddButton &&
+                        <Right style = {styles.addToCart}>
+                            <Button light onPress = {props.onAddToCart}>
+                                <Icon name = 'add' style = {styles.addToCartIcon}/>
+                            </Button>
+                        </Right>
+                    }
                 </CardItem>
-                {props.homeView &&
+                {props.clickableCard &&
                     <TouchableOpacity onPress = {props.onPress}>
                         <CardItem cardBody>
                             <Image resizeMode = 'contain' source={{uri: props.productImg}} style = {styles.cardImg}/>
@@ -65,8 +67,8 @@ const styles = {
         color: 'black',
     },
     cardImg: {
-        height: 200, 
-        width: null, 
+        height: 200,
+        width: null,
         flex: 1
     },
     price: {
@@ -74,4 +76,3 @@ const styles = {
         fontSize: 25
     }
 }
-

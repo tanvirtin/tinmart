@@ -145,7 +145,7 @@ class HomeContainer extends Component {
         try {
             // make the get request by attaching the term to the string
             const response = await this.props.submitSearch(term);
-            
+
             const status = response.status;
 
             // if the status is greater than 201 then it means the server returned an error
@@ -159,7 +159,7 @@ class HomeContainer extends Component {
 
                 // There may be an error here REFACTOR LATER
                 const resJson = JSON.parse(resObject);
-                
+
                 this.listOfProducts = resJson.products;
 
                 for (let i = 0; i < this.listOfProducts.length; ++i) {
@@ -175,7 +175,7 @@ class HomeContainer extends Component {
                         this.onAddToCart(basicCardItemIndex);
                     }
 
-                    const basicCardItem = <BasicItemCard key = {i} homeView onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>;
+                    const basicCardItem = <BasicItemCard key = {i} clickableCard hideAddButton onPress = {() => this.onViewProduct(product.docId)} onAddToCart = {onAddToCartButtonBinder} title = {product.title} category = {product.category} productImg = {product.productImgUrl} price = {product.price}/>;
                     this.basicCardItems.push(basicCardItem);
                 }
 
