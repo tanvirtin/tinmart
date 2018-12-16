@@ -85,11 +85,11 @@ The project relies on some major dependencies and installation that are needed t
 
 ### Steps on how to run
 
-There are four major components to running this project:
-1. Crawl the data using Java and pipe it into MongoDB.
-2. Access the data from MongoDB and index the it into Elasticsearch via Python scripts.
-3. Start the server Django server.
-4. Run the expo application, after which run an Android emulator or Android device to access the client side to interact with the server.
+There are four major components to running this project, which needs to be executed in order:
+1. Crawl the data using Java and pipe it into MongoDB. The crawler is located in the "fillmyfridge" folder.
+2. Access the data from MongoDB and index the it into Elasticsearch via Python scripts. The indexing scripts are located in the "index" folder.
+3. Start the server Django server. The server is located in the "server" folder.
+4. Run the expo application, after which run an Android emulator or Android device to access the client side to interact with the server, which is located in the "app" folder.
 
 
 License
