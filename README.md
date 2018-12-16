@@ -88,7 +88,7 @@ The project relies on some major dependencies and installation that are needed t
 There are four major components to running this project:
 1. Crawl the data using Java and pipe it into MongoDB.
 2. Access the data from MongoDB and index the it into Elasticsearch via Python scripts.
-3. Start the server Django server up.
+3. Start the server Django server.
 4. Run the expo application, after which run an Android emulator or Android device to access the client side to interact with the server.
 
 
