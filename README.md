@@ -83,7 +83,7 @@ The project relies on some major dependencies and installation that are needed t
 * Mongoengine, http://mongoengine.org/
 * Django REST Framework Mongoengine,  https://github.com/umutbozkurt/django-rest-framework-mongoengine
 
-### Steps on how to run
+## Steps on how to run
 
 There are four major components to running this project, which needs to be executed in order:
 1. Crawl the data using Java and pipe it into MongoDB. The crawler is located in the "fillmyfridge" folder.
