@@ -63,10 +63,10 @@ However, the project’s real strength lies in its search, interface and recommend
 
 #### Dependencies
 
-The project relies on some major dependencies and installation that are needed in order to run it. The guide to install the major and minor dependencies are all linked below:
+The project relies on some major dependencies and installation that are needed to be installed first in order to run it. The guide to install all the major and minor dependencies are all linked below:
 
 ##### Major Dependencies:
-* Python 3.7, https://www.python.org/downloads/
+* Python, https://www.python.org/downloads/
 * Java, https://www.oracle.com/technetwork/java/javase/downloads/index.html
 * React Native, https://facebook.github.io/react-native/docs/getting-started.html
 * Expo, https://docs.expo.io/versions/latest/introduction/installation
@@ -75,12 +75,26 @@ The project relies on some major dependencies and installation that are needed i
 * Android Studo, https://developer.android.com/studio/install
 * Elasticsearch, https://www.elastic.co/downloads/elasticsearch
 
+##### Minor Dependencies:
+* Django, https://www.djangoproject.com/download/
+* Django REST Framework, https://www.django-rest-framework.org/
+* REST framework JWT Auth,https://getblimp.github.io/django-rest-framework-jwt/
+* Graphene Django, https://github.com/graphql-python/graphene-django
+* Mongoengine, http://mongoengine.org/
+* Django REST Framework Mongoengine,  https://github.com/umutbozkurt/django-rest-framework-mongoengine
 
+### Steps on how to run
+
+There are four major components to running this project:
+1. Crawl the data using Java and pipe it into MongoDB.
+2. Access the data from MongoDB and index the it into Elasticsearch via Python scripts.
+3. Start the server Django server up.
+4. Run the expo application, after which run an Android emulator or Android device to access the client side to interact with the server.
 
 
 License
 ----
 
-MIT
+* MIT
 
 **Feel free to use my project as a future reference for anything similar you are building!**
