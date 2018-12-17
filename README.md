@@ -17,7 +17,7 @@ This project seeks to design a grocery shopping website’s catalogue such that 
 
 Using my application, the user can search for a product in the store from all the existing product data extracted from fillmyfridge.ca. Upon receiving the products from the search result, the user can add the product to their cart or click on the cart for more details about the product. If the user decides to click on the card representing the product they will be shown further details about the product and other products recommended to them. These recommendations will be of two categories, substitutes and complements. Substitute goods are products that are similar to each other, thereby replacing one another on occasion, contingent on price and other factors. Meanwhile, complementary products are often bought in concert with one another. For instance, Coco Cola and Pepsi and substitutes, while chips and dip are complements.
 
-## What was used to build it?
+## Key concepts it was build around
 
 To build my system, I needed four main components, the client with which data is accessed, the server which serves the data, the data itself, and most importantly, the algorithm with which the recommendations could be made.
 
