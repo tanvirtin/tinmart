@@ -1,0 +1,41 @@
+Substitute Recommendation:
+--------------------------
+- Extract noun from the query string.
+- Query the results to the server which queries it into ElasticSearch.
+- Determine from the search the category of the query string, by finding out the category that is most seen in results returned by the server.
+- Remove all other products that belong in the less relevant category.
+- Extract all the nouns from the products returned by the server.
+- Now compare the query result products with the query string.
+- If there is a 90% match between the letters the products returned by the server is valid.
+- This is due to words like wheat and weat being similar.
+
+Complement Recommendation:
+--------------------------
+- A dataset of around 10,000 transactions were used in order to train the Apriori algorithm.
+- Each sets of transactions contain real products with names, however these products are not labeled by their category.
+- So the first step is to identiy the category of the product in the transaction and then use an item from the database to reperesent this product.
+- First I query the product to the server to be looked up by ElasticSearch.
+- ElasticSearch then returns results of all the products that are similar to the query string.
+- Every product returned from ElasticSearch contains a query score given by Elastic search along with its category which was indexed from the database.
+- For example, there may be 8 different products belonging to 3 different categories.
+- I create a python dictionary where the category name is the key and the value is the summation of all the ElasticSearch score values of the products.
+- The key which is the category with the highest score is the correct representation of the product.
+- Now we know what the category of the product, the second step is to use a real database product to identify the product in the csv transaction.
+- Since we know the category we can just randomly select a product from that category from the list of products returned by ElasticSearch.
+- It is very important for each unique item in the csv to be represented by another unique item in our database. If the same product is not used to represent
+the apriori algorithm will not work.
+- With all the transactions generated in the database I feed the data into an apriori algorithm implementation and get the associations with a support value of 0.003 and a confidence value of 0.2.
+- With the associations computed for a given complementary products can be found. 
+
+Product Recommendation in checkout:
+-----------------------------------
+- A GET HTTP request is used to compute the apriori for all the transaction in the csv file.
+- The results of the apriori gives out all the results of the associations of each product involved in a transaction with a minimum confidence value of 0.2 and support of 0.003.
+- This result is then stored in the database.
+- When every purchase is made by the user a transaction is generated. 
+- When the user is about to checkout each item in the user's cart is looked up with the results from the apriori algorithm, to see if it exists in it's records.
+- If it is found, then I get list of all the products that it was associated with and return those products. 
+- If a product does not exist in the apriori result then I use the Substiture recommendation mentioned earlier to find similar products.
+- After the user completes a transaction, the new transaction is added to the transaction database for new apriori result calculation in the future.
+
+
