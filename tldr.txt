@@ -22,8 +22,7 @@ Complement Recommendation:
 - The key which is the category with the highest score is the correct representation of the product.
 - Now we know what the category of the product, the second step is to use a real database product to identify the product in the csv transaction.
 - Since we know the category we can just randomly select a product from that category from the list of products returned by ElasticSearch.
-- It is very important for each unique item in the csv to be represented by another unique item in our database. If the same product is not used to represent
-the apriori algorithm will not work.
+- It is very important for each unique item in the csv to be represented by another unique item in our database. If the same product is not used to represent the apriori algorithm will not work.
 - With all the transactions generated in the database I feed the data into an apriori algorithm implementation and get the associations with a support value of 0.003 and a confidence value of 0.2.
 - With the associations computed for a given complementary products can be found. 
 
