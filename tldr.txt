@@ -36,5 +36,3 @@ Product Recommendation in checkout:
 - If it is found, then I get list of all the products that it was associated with and return those products. 
 - If a product does not exist in the apriori result then I use the Substiture recommendation mentioned earlier to find similar products.
 - After the user completes a transaction, the new transaction is added to the transaction database for new apriori result calculation in the future.
-
-
